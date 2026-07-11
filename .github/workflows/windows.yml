@@ -31,7 +31,6 @@ jobs:
           /p:GenerateAppxPackageOnBuild=true
           /p:AppxPackageSigningEnabled=true
           /p:PackageCertificateKeyFile=Signing\AnchorSigning.pfx
-          /p:PackageCertificatePassword=AnchorMsix2026
           /p:AppxBundle=Never
           /p:UapAppxPackageBuildMode=SideloadOnly
           /p:AppxPackageDir=AppPackages\
