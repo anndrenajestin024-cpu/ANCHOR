@@ -14,4 +14,10 @@ Every push builds and lints the app via GitHub Actions. To get an installable AP
 
 ## Windows
 
-Coming next — a native C#/WinUI 3 app with the same data model, also built via GitHub Actions CI.
+Source lives in `windows/Anchor/`. Built with C# + WinUI 3 (same data model, features, and seed content as the Android app).
+
+Every push builds it via GitHub Actions on a real Windows runner (this dev environment can't compile WinUI 3 itself). To get a runnable build:
+
+1. Go to the **Actions** tab → **Windows** workflow → latest successful run.
+2. Download the `anchor-windows` artifact and unzip it.
+3. Run `Anchor.exe` inside the extracted folder — it's a self-contained build, no separate .NET install needed.
