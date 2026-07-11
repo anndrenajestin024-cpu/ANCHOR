@@ -53,6 +53,11 @@ private val LightColors = lightColorScheme(
     onSurfaceVariant = AnchorColors.TextMuted,
     error = AnchorColors.Danger,
     outline = AnchorColors.Outline,
+    // Material3 auto-tints elevated surfaces (Card, TopAppBar, NavigationBar) toward this
+    // color for tonal elevation. Left at its default (= primary), every white card and
+    // app bar was picking up a grey cast from our charcoal primary. Disable that tinting
+    // so explicit surface/card colors stay the color we actually set.
+    surfaceTint = Color.Transparent,
 )
 
 private val AnchorTypography = Typography(
