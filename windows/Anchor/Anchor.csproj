@@ -7,19 +7,21 @@
     <RootNamespace>Anchor</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <UseWinUI>true</UseWinUI>
-    <EnableMsixTooling>true</EnableMsixTooling>
+    <EnableMsixTooling>false</EnableMsixTooling>
+    <WindowsPackageType>None</WindowsPackageType>
+    <!-- Framework-dependent: .NET itself is still bundled (SelfContained=true) so no
+         separate .NET install is needed, but the WindowsAppSDK/WinUI3 native runtime
+         is NOT bundled (WindowsAppSDKSelfContained=false) — it resolves against the
+         Microsoft-signed "Windows App Runtime" redistributable installed on the
+         machine instead. This avoids both the unpackaged self-contained SxS
+         resolution problems and the MSIX self-signed-certificate trust problems,
+         at the cost of one extra one-time Microsoft-signed installer for the user. -->
     <SelfContained>true</SelfContained>
-    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
-    <Platforms>x64</Platforms>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>Assets\anchor.ico</ApplicationIcon>
-    <AppxPackageSigningEnabled>true</AppxPackageSigningEnabled>
-    <PackageCertificateKeyFile>Signing\AnchorSigning.pfx</PackageCertificateKeyFile>
-    <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
-    <AppxBundle>Never</AppxBundle>
-    <AppxPackageDir>AppPackages\</AppxPackageDir>
   </PropertyGroup>
 
   <ItemGroup>

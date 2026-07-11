@@ -14,11 +14,11 @@ Every push builds and lints the app via GitHub Actions. To get an installable AP
 
 ## Windows
 
-Source lives in `windows/Anchor/`. Built with C# + WinUI 3 (same data model, features, and seed content as the Android app), packaged as a signed MSIX for reliable install/update instead of a loose unpackaged .exe.
+Source lives in `windows/Anchor/`. Built with C# + WinUI 3 (same data model, features, and seed content as the Android app). Ships as a framework-dependent unpackaged build: the app itself needs no installer or certificate, but it depends on Microsoft's own **Windows App Runtime**, installed once via Microsoft's official (Microsoft-signed) redistributable.
 
 Every push builds it via GitHub Actions on a real Windows runner (this dev environment can't compile WinUI 3 itself). To install:
 
-1. Go to the **Actions** tab → **Windows** workflow → latest successful run.
-2. Download the `anchor-windows-msix` artifact and unzip it — it contains `Anchor_1.0.0.0_x64.msix` and `AnchorSigning.cer`.
-3. **One-time setup:** double-click `AnchorSigning.cer` → **Install Certificate** → **Local Machine** (approve the UAC prompt) → **Place all certificates in the following store** → **Trusted Root Certification Authorities** → Finish → accept the security warning. (This is a self-signed cert acting as its own root since the app isn't going through the Microsoft Store, so it has to go in the Root store, not Trusted People, or Windows can't build a trust chain to it and install fails with error 0x800B010A.) Installing it once tells Windows to trust builds signed with it.
-4. Double-click the `.msix` file to install. Future updates: repeat steps 1–2 and 4 (skip step 3, the cert stays trusted) — it installs in place over the old version.
+1. **One-time setup:** install the [Windows App SDK 1.6 runtime redistributable](https://aka.ms/windowsappsdk/1.6/latest/windowsappruntimeinstall-x64.exe) from Microsoft (signed by Microsoft, so no certificate-trust step needed). If that link doesn't work, search "Windows App SDK runtime download" — you want the 1.6.x x64 installer.
+2. Go to the **Actions** tab → **Windows** workflow → latest successful run.
+3. Download the `anchor-windows` artifact and unzip it.
+4. Run `Anchor.exe` inside the extracted folder. Future updates: repeat steps 2–4 (skip step 1, the runtime stays installed).

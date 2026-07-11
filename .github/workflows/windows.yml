@@ -20,29 +20,11 @@ jobs:
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      - name: Build signed MSIX package
-        run: >
-          msbuild Anchor.csproj /restore /t:Build
-          /p:Configuration=Release
-          /p:Platform=x64
-          /p:RuntimeIdentifier=win-x64
-          /p:SelfContained=true
-          /p:WindowsAppSDKSelfContained=true
-          /p:GenerateAppxPackageOnBuild=true
-          /p:AppxPackageSigningEnabled=true
-          /p:PackageCertificateKeyFile=Signing\AnchorSigning.pfx
-          /p:AppxBundle=Never
-          /p:UapAppxPackageBuildMode=SideloadOnly
-          /p:AppxPackageDir=AppPackages\
+      - name: Publish (framework-dependent win-x64)
+        run: msbuild Anchor.csproj /restore /t:Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:WindowsAppSDKSelfContained=false /p:PublishDir=publish\
 
-      - name: List package output (diagnostic)
-        shell: pwsh
-        run: Get-ChildItem -Recurse AppPackages | Select-Object FullName, Length | Sort-Object FullName | Format-Table -AutoSize | Out-String -Width 300
-
-      - name: Upload MSIX package
+      - name: Upload build
         uses: actions/upload-artifact@v4
         with:
-          name: anchor-windows-msix
-          path: |
-            windows/Anchor/AppPackages/**/*.msix
-            windows/Anchor/Signing/AnchorSigning.cer
+          name: anchor-windows
+          path: windows/Anchor/publish
