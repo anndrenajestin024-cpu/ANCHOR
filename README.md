@@ -20,5 +20,5 @@ Every push builds it via GitHub Actions on a real Windows runner (this dev envir
 
 1. Go to the **Actions** tab → **Windows** workflow → latest successful run.
 2. Download the `anchor-windows-msix` artifact and unzip it — it contains `Anchor_1.0.0.0_x64.msix` and `AnchorSigning.cer`.
-3. **One-time setup:** double-click `AnchorSigning.cer` → **Install Certificate** → **Local Machine** → **Place all certificates in the following store** → **Trusted People** → Finish. (This is a self-signed cert since the app isn't going through the Microsoft Store; installing it once tells Windows to trust builds signed with it.)
+3. **One-time setup:** double-click `AnchorSigning.cer` → **Install Certificate** → **Local Machine** (approve the UAC prompt) → **Place all certificates in the following store** → **Trusted Root Certification Authorities** → Finish → accept the security warning. (This is a self-signed cert acting as its own root since the app isn't going through the Microsoft Store, so it has to go in the Root store, not Trusted People, or Windows can't build a trust chain to it and install fails with error 0x800B010A.) Installing it once tells Windows to trust builds signed with it.
 4. Double-click the `.msix` file to install. Future updates: repeat steps 1–2 and 4 (skip step 3, the cert stays trusted) — it installs in place over the old version.
