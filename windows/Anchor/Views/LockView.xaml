@@ -7,7 +7,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8" Width="320">
             <Ellipse Width="72" Height="72" HorizontalAlignment="Center" Margin="0,0,0,12">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="ms-appx:///Assets/profile-photo.jpg" Stretch="UniformToFill" />
+                    <ImageBrush ImageSource="Assets/profile-photo.jpg" Stretch="UniformToFill" />
                 </Ellipse.Fill>
             </Ellipse>
             <TextBlock Text="Anchor" Style="{StaticResource AnchorWordmarkTextStyle}" Foreground="White" FontSize="34" HorizontalAlignment="Center" />

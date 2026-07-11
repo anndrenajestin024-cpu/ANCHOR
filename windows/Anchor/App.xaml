@@ -25,16 +25,19 @@
             <SolidColorBrush x:Key="AnchorWarnBrush" Color="{StaticResource AnchorWarn}" />
             <SolidColorBrush x:Key="AnchorDangerBrush" Color="{StaticResource AnchorDanger}" />
 
-            <!-- Bundled font files (not system fonts) so the typefaces render identically on every machine. -->
-            <FontFamily x:Key="GordenFont">ms-appx:///Assets/Fonts/Gorden.otf#Gorden</FontFamily>
-            <FontFamily x:Key="AvianoSerifFont">ms-appx:///Assets/Fonts/AvianoSerif.otf#Aviano Serif</FontFamily>
-            <FontFamily x:Key="AvianoGothicFont">ms-appx:///Assets/Fonts/AvianoGothic.ttf#Aviano Gothic  3</FontFamily>
-            <FontFamily x:Key="GaleyFont">ms-appx:///Assets/Fonts/Galey-Regular.ttf#Galey Rounded ExtLt</FontFamily>
+            <!-- Bundled font files (not system fonts) so the typefaces render identically on every
+                 machine. Plain relative paths, not ms-appx:// URIs — this app is unpackaged (no MSIX
+                 identity), and ms-appx resolution throws without one, crashing the app at startup
+                 before any window shows since these are eagerly loaded Application resources. -->
+            <FontFamily x:Key="GordenFont">Assets/Fonts/Gorden.otf#Gorden</FontFamily>
+            <FontFamily x:Key="AvianoSerifFont">Assets/Fonts/AvianoSerif.otf#Aviano Serif</FontFamily>
+            <FontFamily x:Key="AvianoGothicFont">Assets/Fonts/AvianoGothic.ttf#Aviano Gothic  3</FontFamily>
+            <FontFamily x:Key="GaleyFont">Assets/Fonts/Galey-Regular.ttf#Galey Rounded ExtLt</FontFamily>
 
             <!-- Fluent controls (Button, NavigationViewItem, ContentDialog, TextBox, ComboBox, ...)
                  read their default font from this theme resource rather than an implicit
                  TextBlock style, so it has to be overridden too for the lock to be complete. -->
-            <FontFamily x:Key="ContentControlThemeFontFamily">ms-appx:///Assets/Fonts/AvianoGothic.ttf#Aviano Gothic  3</FontFamily>
+            <FontFamily x:Key="ContentControlThemeFontFamily">Assets/Fonts/AvianoGothic.ttf#Aviano Gothic  3</FontFamily>
 
             <!-- IsTextScaleFactorEnabled defaults to true, meaning Windows' "Make text
                  bigger" Ease of Access setting resizes every TextBlock automatically.
