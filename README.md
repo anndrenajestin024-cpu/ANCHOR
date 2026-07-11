@@ -14,10 +14,10 @@ Every push builds and lints the app via GitHub Actions. To get an installable AP
 
 ## Windows
 
-Source lives in `windows/Anchor/`. Built with C# + WPF (same data model, features, and seed content as the Android app) — plain .NET desktop, not WinUI3/WindowsAppSDK, so there's no MSIX packaging, no Windows App Runtime dependency, and no certificate to trust. Published as a single self-contained `.exe`.
+Source lives in `windows/Anchor/`. Built with C# + WPF (same data model, features, and seed content as the Android app) — plain .NET desktop, not WinUI3/WindowsAppSDK, so there's no MSIX packaging, no Windows App Runtime dependency, and no certificate to trust.
 
 Every push builds it via GitHub Actions on a real Windows runner (this dev environment can't compile a Windows GUI app itself). To install:
 
 1. Go to the **Actions** tab → **Windows** workflow → latest successful run.
 2. Download the `anchor-windows` artifact and unzip it.
-3. Run `Anchor.exe` — it's a single file, everything's bundled in.
+3. Run `Anchor.exe` inside the extracted folder.

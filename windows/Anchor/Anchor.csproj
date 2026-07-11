@@ -4,19 +4,20 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>Anchor</RootNamespace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
     <UseWPF>true</UseWPF>
     <!-- Plain WPF, not WinUI3/WindowsAppSDK. WPF is a much older, rock-solid part of
          .NET itself with no MSIX packaging, no reg-free-COM WinRT activation, and no
          Windows App Runtime dependency to version-match — none of the deployment
-         infrastructure that kept failing on real machines. -->
+         infrastructure that kept failing on real machines.
+         No custom ApplicationManifest and no PublishSingleFile: both were identical
+         across every previous attempt (WinUI3 unpackaged, MSIX, and this WPF build)
+         that all hit the same SxS error, so both are removed as variables — a plain
+         multi-file self-contained publish with .NET's own default manifest. -->
     <SelfContained>true</SelfContained>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>Assets\anchor.ico</ApplicationIcon>
-    <PublishSingleFile>true</PublishSingleFile>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
 
   <ItemGroup>
