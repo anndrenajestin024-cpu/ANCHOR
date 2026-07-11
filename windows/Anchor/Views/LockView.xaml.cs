@@ -51,4 +51,15 @@ public partial class LockView : UserControl
         _vm.PressPinKey("⌫");
         RefreshState();
     }
+
+    private void ForgotPin_Click(object sender, RoutedEventArgs e)
+    {
+        if (_vm == null) return;
+        var result = MessageBox.Show(
+            "This clears your saved PIN so you can set a new one. Your purchases, suppliers, and other data stay untouched.\n\nContinue?",
+            "Reset PIN", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        if (result != MessageBoxResult.Yes) return;
+        _vm.ForgotPin();
+        RefreshState();
+    }
 }

@@ -77,6 +77,17 @@ public partial class AnchorViewModel : ObservableObject
         PinEntry = "";
     }
 
+    /// <summary>Clears the saved PIN (data stays intact) so the lock screen re-enters "create" mode.</summary>
+    public void ForgotPin()
+    {
+        Data.Settings.Pin = null;
+        _pinFirstEntry = null;
+        PinEntry = "";
+        PinError = "";
+        Persist();
+        OnPropertyChanged(nameof(Data));
+    }
+
     public string PinMode() => Data.Settings.Pin == null ? (_pinFirstEntry == null ? "create" : "confirm") : "enter";
 
     public void PressPinKey(string key)

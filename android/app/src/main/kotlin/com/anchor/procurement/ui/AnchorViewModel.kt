@@ -105,6 +105,16 @@ class AnchorViewModel(private val repository: Repository) : ViewModel() {
         _pinEntry.value = ""
     }
 
+    /** Clears the saved PIN (data stays intact) so the lock screen re-enters "create" mode. */
+    fun forgotPin() {
+        viewModelScope.launch {
+            repository.saveSettings(currentSettingsEntity().copy(pin = null))
+        }
+        _pinFirstEntry.value = null
+        _pinEntry.value = ""
+        _pinError.value = ""
+    }
+
     /** Mirrors the prototype's pinPress: builds up to 4 digits, then creates/confirms/verifies. */
     fun pressPinKey(key: String) {
         val pin = data.value.settings.pin

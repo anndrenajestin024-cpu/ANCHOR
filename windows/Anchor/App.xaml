@@ -96,6 +96,34 @@
                 </Setter>
             </Style>
 
+            <!-- Round translucent PIN keypad buttons on the lock screen's dark gradient,
+                 matching the prototype's rgba(255,255,255,.08) key style exactly. -->
+            <Style x:Key="AnchorPinKeyStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Background" Value="#14FFFFFF" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="BorderBrush" Value="#33FFFFFF" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="17">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="#33FFFFFF" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="#4DFFFFFF" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type Control}}">
                 <Setter Property="Background" Value="White" />
                 <Setter Property="Foreground" Value="{StaticResource AnchorCharcoalBrush}" />
