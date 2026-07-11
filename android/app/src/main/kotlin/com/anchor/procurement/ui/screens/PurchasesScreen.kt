@@ -66,21 +66,21 @@ fun PurchasesScreen(viewModel: AnchorViewModel, onOpenPurchase: (String) -> Unit
                     FilterChip(
                         selected = filters.status == null && filters.category == null && filters.supplierId == null,
                         onClick = { viewModel.clearFilters() },
-                        label = { Text("All", fontSize = 12.sp) },
+                        label = { Text("All", fontSize = 10.sp) },
                     )
                     Statuses.purchase.forEach { s ->
                         FilterChip(
                             selected = filters.status == s,
                             onClick = { viewModel.setStatusFilter(if (filters.status == s) null else s) },
-                            label = { Text(s, fontSize = 11.sp) },
+                            label = { Text(s, fontSize = 9.sp) },
                         )
                     }
                 }
             }
-            item { Text("${rows.size} purchases", fontSize = 12.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(vertical = 12.dp)) }
+            item { Text("${rows.size} purchases", fontSize = 10.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(vertical = 12.dp)) }
 
             if (rows.isEmpty()) {
-                item { Text("No purchases match these filters.", color = AnchorColors.TextMuted, fontSize = 13.sp) }
+                item { Text("No purchases match these filters.", color = AnchorColors.TextMuted, fontSize = 11.sp) }
             }
 
             items(rows, key = { it.id }) { p ->
@@ -94,17 +94,17 @@ fun PurchasesScreen(viewModel: AnchorViewModel, onOpenPurchase: (String) -> Unit
                 ) {
                     Column(Modifier.padding(14.dp)) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                            Text(p.item, fontSize = 15.sp, fontWeight = FontWeight.Medium)
+                            Text(p.item, fontSize = 13.sp, fontWeight = FontWeight.Medium)
                             StatusChip(p.status, Color(Palette.statusColor(p.status)))
                         }
                         Text(
                             "${viewModel.supplierName(p.supplierId)} · ${p.qty.toCleanString()} ${p.unit} × ${Format.money(p.price, currency)} · ${Format.fdate(p.date)}",
-                            fontSize = 12.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 4.dp),
+                            fontSize = 10.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 4.dp),
                         )
                         Row(Modifier.fillMaxWidth().padding(top = 6.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(Format.money(p.total, currency, 0), fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                            Text(Format.money(p.total, currency, 0), fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
                             if (p.savings > 0) {
-                                Text("saved ${Format.money(p.savings, currency, 0)}", fontSize = 12.sp, color = AnchorColors.SuccessDark)
+                                Text("saved ${Format.money(p.savings, currency, 0)}", fontSize = 10.sp, color = AnchorColors.SuccessDark)
                             }
                         }
                     }

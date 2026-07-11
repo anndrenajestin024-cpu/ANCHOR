@@ -35,7 +35,7 @@ fun QuotesScreen(viewModel: AnchorViewModel) {
 
     LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         if (groups.isEmpty()) {
-            item { Text("No quote comparisons yet.", color = AnchorColors.TextMuted, fontSize = 13.sp) }
+            item { Text("No quote comparisons yet.", color = AnchorColors.TextMuted, fontSize = 11.sp) }
         }
         items(groups, key = { it.id }) { g ->
             val active = g.status == "active"
@@ -44,13 +44,13 @@ fun QuotesScreen(viewModel: AnchorViewModel) {
             Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = AnchorColors.Surface)) {
                 Column(Modifier.padding(16.dp)) {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                        Text(g.title, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                        Text(g.title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
                         StatusChip(
                             label = if (active) (if (g.selectedQuoteId != null) "Selected" else "Comparing") else "Converted",
                             color = if (active) AnchorColors.Primary else AnchorColors.SuccessDark,
                         )
                     }
-                    Text("${g.qty.let { if (it % 1.0 == 0.0) it.toInt().toString() else it.toString() }} ${g.unit} · ${g.category} · ${g.quotes.size} quotes", fontSize = 12.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 4.dp))
+                    Text("${g.qty.let { if (it % 1.0 == 0.0) it.toInt().toString() else it.toString() }} ${g.unit} · ${g.category} · ${g.quotes.size} quotes", fontSize = 10.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 4.dp))
 
                     Column(Modifier.padding(top = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         g.quotes.sortedBy { it.price }.forEach { q ->
@@ -65,15 +65,15 @@ fun QuotesScreen(viewModel: AnchorViewModel) {
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Column {
-                                    Text(viewModel.supplierName(q.supplierId), fontSize = 13.sp, fontWeight = FontWeight.Medium)
-                                    Text("${Format.money(q.price, currency)} / unit · valid ${Format.fdate(q.validUntil)}", fontSize = 11.sp, color = AnchorColors.TextMuted)
+                                    Text(viewModel.supplierName(q.supplierId), fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                                    Text("${Format.money(q.price, currency)} / unit · valid ${Format.fdate(q.validUntil)}", fontSize = 9.sp, color = AnchorColors.TextMuted)
                                 }
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(Format.money(total, currency, 0), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                                    Text(Format.money(total, currency, 0), fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                                     if (cheapest || selected) {
                                         Text(
                                             if (selected) " · Selected" else " · Lowest",
-                                            fontSize = 11.sp,
+                                            fontSize = 9.sp,
                                             color = if (selected) AnchorColors.Primary else AnchorColors.SuccessDark,
                                         )
                                     }
@@ -94,7 +94,7 @@ fun QuotesScreen(viewModel: AnchorViewModel) {
                         if (savings > 0) {
                             Text(
                                 "Savings: ${Format.money(savings, currency, 0)}",
-                                fontSize = 13.sp, color = AnchorColors.SuccessDark, fontWeight = FontWeight.SemiBold,
+                                fontSize = 11.sp, color = AnchorColors.SuccessDark, fontWeight = FontWeight.SemiBold,
                                 modifier = Modifier.padding(top = 8.dp),
                             )
                         }

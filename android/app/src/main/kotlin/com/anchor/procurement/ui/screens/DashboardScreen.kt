@@ -63,7 +63,7 @@ fun DashboardScreen(viewModel: AnchorViewModel, onOpenPurchase: (String) -> Unit
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("all" to "All time", "6m" to "6 months", "3m" to "3 months", "30d" to "30 days").forEach { (v, label) ->
-                    FilterChip(selected = range == v, onClick = { viewModel.setRange(v) }, label = { Text(label, fontSize = 12.sp) })
+                    FilterChip(selected = range == v, onClick = { viewModel.setRange(v) }, label = { Text(label, fontSize = 10.sp) })
                 }
             }
         }
@@ -97,8 +97,8 @@ fun DashboardScreen(viewModel: AnchorViewModel, onOpenPurchase: (String) -> Unit
                                 val frac = if (totalSpend > 0) (amt / totalSpend).toFloat() else 0f
                                 Column {
                                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                        Text(cat, fontSize = 13.sp, color = AnchorColors.CharcoalMid)
-                                        Text(Format.money(amt, currency, 0), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                                        Text(cat, fontSize = 11.sp, color = AnchorColors.CharcoalMid)
+                                        Text(Format.money(amt, currency, 0), fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                                     }
                                     Box(
                                         Modifier
@@ -128,7 +128,7 @@ fun DashboardScreen(viewModel: AnchorViewModel, onOpenPurchase: (String) -> Unit
                     SectionLabel("Recent purchases")
                     Column(Modifier.padding(top = 8.dp)) {
                         if (recent.isEmpty()) {
-                            Text("No purchases yet", color = AnchorColors.TextMuted, fontSize = 13.sp, modifier = Modifier.padding(vertical = 8.dp))
+                            Text("No purchases yet", color = AnchorColors.TextMuted, fontSize = 11.sp, modifier = Modifier.padding(vertical = 8.dp))
                         }
                         recent.forEachIndexed { i, p ->
                             Row(
@@ -139,14 +139,15 @@ fun DashboardScreen(viewModel: AnchorViewModel, onOpenPurchase: (String) -> Unit
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                Column {
-                                    Text(p.item, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                                Column(Modifier.weight(1f).padding(end = 8.dp)) {
+                                    Text(p.item, fontSize = 12.sp, fontWeight = FontWeight.Medium, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
                                     Text(
                                         "${viewModel.supplierName(p.supplierId)} · ${Format.fdate(p.date)} · ${p.status}",
-                                        fontSize = 12.sp, color = AnchorColors.TextMuted,
+                                        fontSize = 10.sp, color = AnchorColors.TextMuted,
+                                        maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                                     )
                                 }
-                                Text(Format.money(p.total, currency, 0), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                                Text(Format.money(p.total, currency, 0), fontSize = 11.sp, fontWeight = FontWeight.SemiBold, maxLines = 1)
                             }
                             if (i < recent.lastIndex) HorizontalDivider(color = AnchorColors.OutlineFaint)
                         }
@@ -161,9 +162,9 @@ fun DashboardScreen(viewModel: AnchorViewModel, onOpenPurchase: (String) -> Unit
 private fun KpiCard(label: String, value: String, sub: String, modifier: Modifier = Modifier) {
     Card(modifier = modifier, shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = AnchorColors.Surface)) {
         Column(Modifier.padding(14.dp)) {
-            Text(label.uppercase(), fontSize = 10.sp, color = AnchorColors.TextMuted, letterSpacing = 1.sp)
-            Text(value, fontSize = 19.sp, fontWeight = FontWeight.SemiBold, color = AnchorColors.TextWarm, modifier = Modifier.padding(top = 6.dp))
-            Text(sub, fontSize = 11.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 2.dp))
+            Text(label.uppercase(), fontSize = 8.sp, color = AnchorColors.TextMuted, letterSpacing = 1.sp)
+            Text(value, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = AnchorColors.TextWarm, modifier = Modifier.padding(top = 6.dp))
+            Text(sub, fontSize = 9.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 2.dp))
         }
     }
 }

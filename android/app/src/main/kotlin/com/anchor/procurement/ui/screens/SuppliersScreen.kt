@@ -39,7 +39,7 @@ fun SuppliersScreen(viewModel: AnchorViewModel, onOpenSupplier: (String) -> Unit
 
     LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         if (data.suppliers.isEmpty()) {
-            item { Text("No suppliers yet.", color = AnchorColors.TextMuted, fontSize = 13.sp) }
+            item { Text("No suppliers yet.", color = AnchorColors.TextMuted, fontSize = 11.sp) }
         }
         items(data.suppliers, key = { it.id }) { s ->
             val count = data.purchases.count { it.supplierId == s.id }
@@ -59,15 +59,15 @@ fun SuppliersScreen(viewModel: AnchorViewModel, onOpenSupplier: (String) -> Unit
                     ) {
                         Text(
                             s.name.split(" ").take(2).mapNotNull { it.firstOrNull() }.joinToString(""),
-                            color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
+                            color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.padding(12.dp),
                         )
                     }
                     Column(Modifier.padding(start = 12.dp).weight(1f)) {
-                        Text(s.name, fontSize = 14.sp, fontWeight = FontWeight.Medium)
-                        Text("$count purchases · ${s.contact.substringBefore("·").trim()}", fontSize = 11.sp, color = AnchorColors.TextMuted)
+                        Text(s.name, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                        Text("$count purchases · ${s.contact.substringBefore("·").trim()}", fontSize = 9.sp, color = AnchorColors.TextMuted)
                     }
-                    Text(Format.money(amount, currency, 0), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                    Text(Format.money(amount, currency, 0), fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                 }
             }
         }

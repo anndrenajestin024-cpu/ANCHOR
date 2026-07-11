@@ -77,22 +77,23 @@ private val LightColors = lightColorScheme(
 // even styles this app doesn't currently use (headline*, display*, titleSmall) still
 // render in the locked typefaces if referenced later — none of them fall through to
 // Typography()'s system-font (Roboto) defaults.
+// Sizes below are ~15% smaller than the Material3 defaults per user request.
 private val AnchorTypography = Typography(
-    displayLarge = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 45.sp),
-    displayMedium = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 36.sp),
-    displaySmall = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 32.sp),
-    headlineLarge = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 30.sp),
-    headlineMedium = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 26.sp),
-    headlineSmall = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 24.sp),
-    titleLarge = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 22.sp),
-    titleMedium = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 17.sp),
-    titleSmall = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 14.sp),
-    bodyLarge = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Normal, fontSize = 16.sp, lineHeight = 22.sp),
-    bodyMedium = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Normal, fontSize = 14.sp, lineHeight = 20.sp),
-    bodySmall = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp, lineHeight = 16.sp),
-    labelLarge = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Medium, fontSize = 14.sp),
-    labelMedium = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Medium, fontSize = 12.sp),
-    labelSmall = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Medium, fontSize = 11.sp, letterSpacing = 1.sp),
+    displayLarge = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 38.sp),
+    displayMedium = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 31.sp),
+    displaySmall = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 27.sp),
+    headlineLarge = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 26.sp),
+    headlineMedium = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 22.sp),
+    headlineSmall = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 20.sp),
+    titleLarge = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 19.sp),
+    titleMedium = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 14.sp),
+    titleSmall = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 12.sp),
+    bodyLarge = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Normal, fontSize = 14.sp, lineHeight = 19.sp),
+    bodyMedium = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp, lineHeight = 17.sp),
+    bodySmall = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Normal, fontSize = 10.sp, lineHeight = 14.sp),
+    labelLarge = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Medium, fontSize = 12.sp),
+    labelMedium = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Medium, fontSize = 10.sp),
+    labelSmall = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Medium, fontSize = 9.sp, letterSpacing = 1.sp),
 )
 
 @Composable

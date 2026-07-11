@@ -34,7 +34,7 @@ fun RemindersScreen(viewModel: AnchorViewModel) {
 
     LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         if (reminders.isEmpty()) {
-            item { Text("No reminders yet.", color = AnchorColors.TextMuted, fontSize = 13.sp) }
+            item { Text("No reminders yet.", color = AnchorColors.TextMuted, fontSize = 11.sp) }
         }
         items(reminders, key = { it.id }) { r ->
             val done = r.status == "Completed"
@@ -54,10 +54,10 @@ fun RemindersScreen(viewModel: AnchorViewModel) {
                     Checkbox(checked = done, onCheckedChange = { viewModel.toggleReminderDone(r.id) })
                     Column(Modifier.weight(1f).padding(start = 6.dp)) {
                         Text(
-                            r.title, fontSize = 14.sp, fontWeight = FontWeight.Medium,
+                            r.title, fontSize = 12.sp, fontWeight = FontWeight.Medium,
                             color = if (done) AnchorColors.TextMuted else AnchorColors.TextWarm,
                         )
-                        Text("Due ${Format.fdate(r.due)}", fontSize = 12.sp, color = AnchorColors.TextMuted)
+                        Text("Due ${Format.fdate(r.due)}", fontSize = 10.sp, color = AnchorColors.TextMuted)
                     }
                     StatusChip(badgeLabel, badgeColor)
                 }

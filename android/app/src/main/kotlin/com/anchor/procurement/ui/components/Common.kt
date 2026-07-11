@@ -20,7 +20,7 @@ fun StatusChip(label: String, color: Color, modifier: Modifier = Modifier) {
             .background(color.copy(alpha = 0.14f), RoundedCornerShape(20.dp))
             .padding(horizontal = 10.dp, vertical = 4.dp),
     ) {
-        Text(label, color = color, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+        Text(label, color = color, fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
     }
 }
 
@@ -29,7 +29,7 @@ fun SectionLabel(text: String) {
     Text(
         text.uppercase(),
         color = AnchorColors.Primary,
-        fontSize = 11.sp,
+        fontSize = 9.sp,
         fontWeight = FontWeight.SemiBold,
         letterSpacing = 1.5.sp,
     )

@@ -54,10 +54,10 @@ fun BudgetsScreen(viewModel: AnchorViewModel) {
             Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = AnchorColors.Surface)) {
                 Column(Modifier.padding(16.dp)) {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(b.category, fontSize = 15.sp, fontWeight = FontWeight.Medium)
+                        Text(b.category, fontSize = 13.sp, fontWeight = FontWeight.Medium)
                         Text(
                             if (!hasBudget) "no budget set" else if (over) "${Format.money(spent - b.amount, currency, 0)} over" else "${Format.money(b.amount - spent, currency, 0)} left",
-                            fontSize = 12.sp,
+                            fontSize = 10.sp,
                             color = if (over) AnchorColors.Danger else AnchorColors.TextMuted,
                         )
                     }

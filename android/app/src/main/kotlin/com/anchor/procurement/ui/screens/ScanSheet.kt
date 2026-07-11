@@ -76,7 +76,7 @@ fun ScanSheet(viewModel: AnchorViewModel, categories: List<String>, onDismiss: (
 
             when (step) {
                 1 -> {
-                    Text("Demo mode — pick a sample document to simulate a scan.", fontSize = 13.sp, color = AnchorColors.TextMuted)
+                    Text("Demo mode — pick a sample document to simulate a scan.", fontSize = 11.sp, color = AnchorColors.TextMuted)
                     scanSamples.forEach { s ->
                         Card(
                             modifier = Modifier
@@ -86,7 +86,7 @@ fun ScanSheet(viewModel: AnchorViewModel, categories: List<String>, onDismiss: (
                         ) {
                             Column(Modifier.padding(14.dp)) {
                                 Text(s.fileName, fontWeight = FontWeight.Medium)
-                                Text(s.sub, fontSize = 12.sp, color = AnchorColors.TextMuted)
+                                Text(s.sub, fontSize = 10.sp, color = AnchorColors.TextMuted)
                             }
                         }
                     }
@@ -100,7 +100,7 @@ fun ScanSheet(viewModel: AnchorViewModel, categories: List<String>, onDismiss: (
                 else -> {
                     val dup = viewModel.dupCheckForScan(supplier, qty.toDoubleOrNull() ?: 0.0, price.toDoubleOrNull() ?: 0.0, date)
                     if (dup != null) {
-                        Text(dup, color = AnchorColors.Warn, fontSize = 12.sp)
+                        Text(dup, color = AnchorColors.Warn, fontSize = 10.sp)
                     }
                     OutlinedTextField(value = item, onValueChange = { item = it }, label = { Text("Item") }, modifier = Modifier.fillMaxWidth())
                     Dropdown("Category", categories, category) { category = it }

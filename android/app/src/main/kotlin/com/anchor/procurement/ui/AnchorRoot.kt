@@ -124,7 +124,7 @@ fun AnchorRoot(viewModel: AnchorViewModel) {
                         )
                         Spacer(Modifier.width(10.dp))
                         androidx.compose.foundation.layout.Column {
-                            Text("Anchor", fontFamily = GordenFamily, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            Text("Anchor", fontFamily = GordenFamily, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                             Text(tab.label, style = MaterialTheme.typography.labelSmall)
                         }
                     }
@@ -138,12 +138,17 @@ fun AnchorRoot(viewModel: AnchorViewModel) {
         },
         bottomBar = {
             NavigationBar {
-                NavigationBarItem(selected = tab == Tab.Dashboard, onClick = { tab = Tab.Dashboard }, icon = { Icon(Icons.Filled.Dashboard, null) }, label = { Text("Dashboard") })
-                NavigationBarItem(selected = tab == Tab.Purchases, onClick = { tab = Tab.Purchases }, icon = { Icon(Icons.Filled.Inventory2, null) }, label = { Text("Purchases") })
-                NavigationBarItem(selected = tab == Tab.Quotes, onClick = { tab = Tab.Quotes }, icon = { Icon(Icons.Filled.RequestQuote, null) }, label = { Text("Quotes") })
-                NavigationBarItem(selected = tab == Tab.Suppliers, onClick = { tab = Tab.Suppliers }, icon = { Icon(Icons.Filled.People, null) }, label = { Text("Suppliers") })
-                NavigationBarItem(selected = tab == Tab.Budgets, onClick = { tab = Tab.Budgets }, icon = { Icon(Icons.Filled.PieChart, null) }, label = { Text("Budgets") })
-                NavigationBarItem(selected = tab == Tab.Reminders, onClick = { tab = Tab.Reminders }, icon = { Icon(Icons.Filled.Notifications, null) }, label = { Text("Reminders") })
+                // Six items in a tracked-out caps display font is tight on phone width —
+                // force a single line so labels truncate instead of wrapping and colliding.
+                val navLabelStyle = MaterialTheme.typography.labelSmall.copy(letterSpacing = 0.sp, fontSize = 8.sp)
+                @Composable
+                fun navLabel(text: String) = Text(text, style = navLabelStyle, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, softWrap = false)
+                NavigationBarItem(selected = tab == Tab.Dashboard, onClick = { tab = Tab.Dashboard }, icon = { Icon(Icons.Filled.Dashboard, null) }, label = { navLabel("Dashboard") })
+                NavigationBarItem(selected = tab == Tab.Purchases, onClick = { tab = Tab.Purchases }, icon = { Icon(Icons.Filled.Inventory2, null) }, label = { navLabel("Purchases") })
+                NavigationBarItem(selected = tab == Tab.Quotes, onClick = { tab = Tab.Quotes }, icon = { Icon(Icons.Filled.RequestQuote, null) }, label = { navLabel("Quotes") })
+                NavigationBarItem(selected = tab == Tab.Suppliers, onClick = { tab = Tab.Suppliers }, icon = { Icon(Icons.Filled.People, null) }, label = { navLabel("Suppliers") })
+                NavigationBarItem(selected = tab == Tab.Budgets, onClick = { tab = Tab.Budgets }, icon = { Icon(Icons.Filled.PieChart, null) }, label = { navLabel("Budgets") })
+                NavigationBarItem(selected = tab == Tab.Reminders, onClick = { tab = Tab.Reminders }, icon = { Icon(Icons.Filled.Notifications, null) }, label = { navLabel("Reminders") })
             }
         },
         floatingActionButton = {

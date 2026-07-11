@@ -71,15 +71,15 @@ fun PurchaseDetailScreen(viewModel: AnchorViewModel, purchaseId: String, onBack:
                 .verticalScroll(rememberScrollState()),
         ) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text(Format.money(p.total, currency, 0), fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
+                Text(Format.money(p.total, currency, 0), fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
                 StatusChip(p.status, AnchorColors.Primary)
             }
-            Text("${p.qty} ${p.unit} × ${Format.money(p.price, currency)} · ${Format.fdateY(p.date)}", fontSize = 13.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 4.dp))
+            Text("${p.qty} ${p.unit} × ${Format.money(p.price, currency)} · ${Format.fdateY(p.date)}", fontSize = 11.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 4.dp))
 
             if (p.savings > 0) {
                 Text(
                     "Saved ${Format.money(p.savings, currency, 0)}" + (p.basis?.let { " (${Math.round(p.savings / it * 1000) / 10.0}%)" } ?: ""),
-                    fontSize = 13.sp, color = AnchorColors.SuccessDark, fontWeight = FontWeight.SemiBold,
+                    fontSize = 11.sp, color = AnchorColors.SuccessDark, fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding(top = 8.dp),
                 )
             }
@@ -97,43 +97,43 @@ fun PurchaseDetailScreen(viewModel: AnchorViewModel, purchaseId: String, onBack:
                 "Purchase date" to Format.fdateY(p.date),
             ).forEach { (k, v) ->
                 Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(k, fontSize = 13.sp, color = AnchorColors.TextMuted)
-                    Text(v, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                    Text(k, fontSize = 11.sp, color = AnchorColors.TextMuted)
+                    Text(v, fontSize = 11.sp, fontWeight = FontWeight.Medium)
                 }
             }
 
             Spacer(Modifier.height(16.dp))
-            Text("STATUS TIMELINE", fontSize = 11.sp, color = AnchorColors.Primary, letterSpacing = 1.sp)
+            Text("STATUS TIMELINE", fontSize = 9.sp, color = AnchorColors.Primary, letterSpacing = 1.sp)
             Column(Modifier.padding(top = 8.dp)) {
                 Statuses.purchase.forEachIndexed { i, s ->
                     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 3.dp)) {
                         Text(if (i <= idx) "●" else "○", color = if (i <= idx) AnchorColors.Primary else AnchorColors.Outline)
-                        Text(s, fontSize = 13.sp, color = if (i <= idx) AnchorColors.TextWarm else AnchorColors.TextMuted, modifier = Modifier.padding(start = 8.dp))
+                        Text(s, fontSize = 11.sp, color = if (i <= idx) AnchorColors.TextWarm else AnchorColors.TextMuted, modifier = Modifier.padding(start = 8.dp))
                     }
                 }
             }
 
             if (p.docs.isNotEmpty()) {
                 Spacer(Modifier.height(16.dp))
-                Text("DOCUMENTS", fontSize = 11.sp, color = AnchorColors.Primary, letterSpacing = 1.sp)
+                Text("DOCUMENTS", fontSize = 9.sp, color = AnchorColors.Primary, letterSpacing = 1.sp)
                 Column(Modifier.padding(top = 8.dp)) {
                     p.docs.forEach { d ->
-                        Text("${d.name} — ${d.type} · added ${Format.fdate(d.date)}", fontSize = 13.sp, modifier = Modifier.padding(vertical = 3.dp))
+                        Text("${d.name} — ${d.type} · added ${Format.fdate(d.date)}", fontSize = 11.sp, modifier = Modifier.padding(vertical = 3.dp))
                     }
                 }
             }
 
             if (p.notes.isNotBlank()) {
                 Spacer(Modifier.height(16.dp))
-                Text("NOTES", fontSize = 11.sp, color = AnchorColors.Primary, letterSpacing = 1.sp)
-                Text(p.notes, fontSize = 13.sp, modifier = Modifier.padding(top = 6.dp))
+                Text("NOTES", fontSize = 9.sp, color = AnchorColors.Primary, letterSpacing = 1.sp)
+                Text(p.notes, fontSize = 11.sp, modifier = Modifier.padding(top = 6.dp))
             }
 
             if (p.groupId != null) {
                 Spacer(Modifier.height(16.dp))
                 Text(
                     "View originating quote comparison →",
-                    fontSize = 13.sp, color = AnchorColors.Primary, fontWeight = FontWeight.Medium,
+                    fontSize = 11.sp, color = AnchorColors.Primary, fontWeight = FontWeight.Medium,
                     modifier = Modifier
                         .padding(top = 4.dp)
                         .clickable { onOpenQuotes() },

@@ -60,10 +60,10 @@ fun LockScreen(viewModel: AnchorViewModel) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.size(72.dp).clip(CircleShape).padding(bottom = 4.dp),
         )
-        Text("Anchor", color = Color.White, fontSize = 34.sp, fontFamily = GordenFamily, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 12.dp))
-        Text("Forever my anchor", color = AnchorColors.TextMuted, fontSize = 13.sp, fontFamily = AvianoSerifFamily)
-        Text(title, color = Color.White, fontSize = 16.sp, modifier = Modifier.padding(top = 24.dp))
-        Text(subtitle, color = AnchorColors.TextMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 6.dp))
+        Text("Anchor", color = Color.White, fontSize = 29.sp, fontFamily = GordenFamily, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 12.dp))
+        Text("Forever my anchor", color = AnchorColors.TextMuted, fontSize = 11.sp, fontFamily = AvianoSerifFamily)
+        Text(title, color = Color.White, fontSize = 14.sp, modifier = Modifier.padding(top = 24.dp))
+        Text(subtitle, color = AnchorColors.TextMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 6.dp))
 
         Row(modifier = Modifier.padding(vertical = 24.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             repeat(4) { i ->
@@ -77,7 +77,7 @@ fun LockScreen(viewModel: AnchorViewModel) {
         }
 
         if (error.isNotEmpty()) {
-            Text(error, color = AnchorColors.Danger, fontSize = 12.sp, modifier = Modifier.padding(bottom = 12.dp))
+            Text(error, color = AnchorColors.Danger, fontSize = 10.sp, modifier = Modifier.padding(bottom = 12.dp))
         }
 
         val keys = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "⌫")
@@ -93,7 +93,7 @@ fun LockScreen(viewModel: AnchorViewModel) {
                                 .clickable(enabled = k.isNotEmpty()) { viewModel.pressPinKey(k) },
                             contentAlignment = Alignment.Center,
                         ) {
-                            if (k.isNotEmpty()) Text(k, color = Color.White, fontSize = 22.sp)
+                            if (k.isNotEmpty()) Text(k, color = Color.White, fontSize = 19.sp)
                         }
                     }
                 }

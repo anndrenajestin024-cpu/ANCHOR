@@ -61,20 +61,20 @@ fun SupplierDetailScreen(viewModel: AnchorViewModel, supplierId: String, onBack:
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
-            Text(Format.money(spend, currency, 0), fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
-            Text("${purchases.size} purchases total", fontSize = 12.sp, color = AnchorColors.TextMuted)
+            Text(Format.money(spend, currency, 0), fontSize = 19.sp, fontWeight = FontWeight.SemiBold)
+            Text("${purchases.size} purchases total", fontSize = 10.sp, color = AnchorColors.TextMuted)
 
             if (supplier.contact.isNotBlank()) {
-                Text(supplier.contact, fontSize = 13.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 12.dp))
+                Text(supplier.contact, fontSize = 11.sp, color = AnchorColors.TextMuted, modifier = Modifier.padding(top = 12.dp))
             }
             if (supplier.notes.isNotBlank()) {
-                Text(supplier.notes, fontSize = 13.sp, modifier = Modifier.padding(top = 8.dp))
+                Text(supplier.notes, fontSize = 11.sp, modifier = Modifier.padding(top = 8.dp))
             }
 
             Spacer(Modifier.height(16.dp))
             HorizontalDivider(color = AnchorColors.OutlineFaint)
             Spacer(Modifier.height(12.dp))
-            Text("PURCHASE HISTORY", fontSize = 11.sp, color = AnchorColors.Primary, letterSpacing = 1.sp)
+            Text("PURCHASE HISTORY", fontSize = 9.sp, color = AnchorColors.Primary, letterSpacing = 1.sp)
 
             purchases.forEach { p ->
                 Row(
@@ -85,10 +85,10 @@ fun SupplierDetailScreen(viewModel: AnchorViewModel, supplierId: String, onBack:
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Column {
-                        Text(p.item, fontSize = 13.sp, fontWeight = FontWeight.Medium)
-                        Text("${Format.fdateY(p.date)} · ${p.qty} ${p.unit} × ${Format.money(p.price, currency)} · ${p.status}", fontSize = 11.sp, color = AnchorColors.TextMuted)
+                        Text(p.item, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                        Text("${Format.fdateY(p.date)} · ${p.qty} ${p.unit} × ${Format.money(p.price, currency)} · ${p.status}", fontSize = 9.sp, color = AnchorColors.TextMuted)
                     }
-                    Text(Format.money(p.total, currency, 0), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                    Text(Format.money(p.total, currency, 0), fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                 }
                 HorizontalDivider(color = AnchorColors.OutlineFaint)
             }
