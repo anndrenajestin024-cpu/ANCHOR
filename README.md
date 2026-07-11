@@ -14,10 +14,11 @@ Every push builds and lints the app via GitHub Actions. To get an installable AP
 
 ## Windows
 
-Source lives in `windows/Anchor/`. Built with C# + WinUI 3 (same data model, features, and seed content as the Android app).
+Source lives in `windows/Anchor/`. Built with C# + WinUI 3 (same data model, features, and seed content as the Android app), packaged as a signed MSIX for reliable install/update instead of a loose unpackaged .exe.
 
-Every push builds it via GitHub Actions on a real Windows runner (this dev environment can't compile WinUI 3 itself). To get a runnable build:
+Every push builds it via GitHub Actions on a real Windows runner (this dev environment can't compile WinUI 3 itself). To install:
 
 1. Go to the **Actions** tab → **Windows** workflow → latest successful run.
-2. Download the `anchor-windows` artifact and unzip it.
-3. Run `Anchor.exe` inside the extracted folder — it's a self-contained build, no separate .NET install needed.
+2. Download the `anchor-windows-msix` artifact and unzip it — it contains `Anchor_1.0.0.0_x64.msix` and `AnchorSigning.cer`.
+3. **One-time setup:** double-click `AnchorSigning.cer` → **Install Certificate** → **Local Machine** → **Place all certificates in the following store** → **Trusted People** → Finish. (This is a self-signed cert since the app isn't going through the Microsoft Store; installing it once tells Windows to trust builds signed with it.)
+4. Double-click the `.msix` file to install. Future updates: repeat steps 1–2 and 4 (skip step 3, the cert stays trusted) — it installs in place over the old version.

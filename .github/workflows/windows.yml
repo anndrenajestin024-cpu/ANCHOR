@@ -20,47 +20,30 @@ jobs:
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      - name: Publish (self-contained win-x64)
-        run: msbuild Anchor.csproj /restore /t:Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:WindowsAppSDKSelfContained=true /p:PublishDir=publish\
+      - name: Build signed MSIX package
+        run: >
+          msbuild Anchor.csproj /restore /t:Build
+          /p:Configuration=Release
+          /p:Platform=x64
+          /p:RuntimeIdentifier=win-x64
+          /p:SelfContained=true
+          /p:WindowsAppSDKSelfContained=true
+          /p:GenerateAppxPackageOnBuild=true
+          /p:AppxPackageSigningEnabled=true
+          /p:PackageCertificateKeyFile=Signing\AnchorSigning.pfx
+          /p:PackageCertificatePassword=AnchorMsix2026
+          /p:AppxBundle=Never
+          /p:UapAppxPackageBuildMode=SideloadOnly
+          /p:AppxPackageDir=AppPackages\
 
-      - name: List published files (diagnostic)
+      - name: List package output (diagnostic)
         shell: pwsh
-        run: Get-ChildItem -Recurse publish | Select-Object FullName, Length | Sort-Object FullName | Format-Table -AutoSize | Out-String -Width 300
+        run: Get-ChildItem -Recurse AppPackages | Select-Object FullName, Length | Sort-Object FullName | Format-Table -AutoSize | Out-String -Width 300
 
-      - name: Dump embedded manifest (diagnostic)
-        shell: pwsh
-        run: |
-          $exe = Get-Item publish/Anchor.exe
-          Write-Host "Anchor.exe size: $($exe.Length)"
-          $manifestFiles = Get-ChildItem publish -Filter *.manifest -Recurse
-          foreach ($m in $manifestFiles) {
-            Write-Host "---- $($m.FullName) ----"
-            Get-Content $m.FullName -Raw
-          }
-          $priFiles = Get-ChildItem publish -Filter *.pri -Recurse
-          Write-Host "PRI files:"
-          $priFiles | ForEach-Object { Write-Host $_.FullName }
-
-      - name: Extract embedded manifest from Anchor.exe (diagnostic)
-        shell: pwsh
-        run: |
-          $mt = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin" -Filter mt.exe -Recurse |
-                Where-Object { $_.FullName -match "x64" } | Select-Object -First 1
-          if ($null -eq $mt) {
-            Write-Host "mt.exe not found under Windows Kits"
-          } else {
-            Write-Host "Using $($mt.FullName)"
-            & $mt.FullName -inputresource:"publish\Anchor.exe;#1" -out:"publish\extracted-anchor.manifest" -nologo
-            if (Test-Path "publish\extracted-anchor.manifest") {
-              Write-Host "---- extracted-anchor.manifest ----"
-              Get-Content "publish\extracted-anchor.manifest" -Raw
-            } else {
-              Write-Host "Extraction produced no file (exit code $LASTEXITCODE)"
-            }
-          }
-
-      - name: Upload build
+      - name: Upload MSIX package
         uses: actions/upload-artifact@v4
         with:
-          name: anchor-windows
-          path: windows/Anchor/publish
+          name: anchor-windows-msix
+          path: |
+            windows/Anchor/AppPackages/**/*.msix
+            windows/Anchor/Signing/AnchorSigning.cer
