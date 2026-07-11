@@ -25,7 +25,19 @@ jobs:
       - name: Publish (self-contained win-x64)
         run: dotnet publish Anchor.csproj -c Release -r win-x64 --self-contained true -o publish
 
-      - name: Upload build
+      - name: Install Inno Setup
+        run: choco install innosetup -y --no-progress
+
+      - name: Build installer
+        run: '"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss'
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: anchor-windows-installer
+          path: windows/Anchor/installer-output/AnchorSetup.exe
+
+      - name: Upload portable build
         uses: actions/upload-artifact@v4
         with:
           name: anchor-windows
