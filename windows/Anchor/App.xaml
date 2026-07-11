@@ -1,0 +1,29 @@
+<Application
+    x:Class="Anchor.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Color x:Key="AnchorCream">#FFFAF9F5</Color>
+            <Color x:Key="AnchorCharcoal">#FF131417</Color>
+            <Color x:Key="AnchorPrimary">#FF55565B</Color>
+            <Color x:Key="AnchorMuted">#FFA6A7AC</Color>
+            <Color x:Key="AnchorSuccess">#FF5E7A4C</Color>
+            <Color x:Key="AnchorWarn">#FFD0A050</Color>
+            <Color x:Key="AnchorDanger">#FFB85C48</Color>
+
+            <SolidColorBrush x:Key="AnchorCreamBrush" Color="{StaticResource AnchorCream}" />
+            <SolidColorBrush x:Key="AnchorCharcoalBrush" Color="{StaticResource AnchorCharcoal}" />
+            <SolidColorBrush x:Key="AnchorPrimaryBrush" Color="{StaticResource AnchorPrimary}" />
+            <SolidColorBrush x:Key="AnchorMutedBrush" Color="{StaticResource AnchorMuted}" />
+            <SolidColorBrush x:Key="AnchorSuccessBrush" Color="{StaticResource AnchorSuccess}" />
+            <SolidColorBrush x:Key="AnchorWarnBrush" Color="{StaticResource AnchorWarn}" />
+            <SolidColorBrush x:Key="AnchorDangerBrush" Color="{StaticResource AnchorDanger}" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
