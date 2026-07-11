@@ -31,6 +31,11 @@
             <FontFamily x:Key="AvianoGothicFont">ms-appx:///Assets/Fonts/AvianoGothic.ttf#Aviano Gothic  3</FontFamily>
             <FontFamily x:Key="GaleyFont">ms-appx:///Assets/Fonts/Galey-Regular.ttf#Galey Rounded ExtLt</FontFamily>
 
+            <!-- Fluent controls (Button, NavigationViewItem, ContentDialog, TextBox, ComboBox, ...)
+                 read their default font from this theme resource rather than an implicit
+                 TextBlock style, so it has to be overridden too for the lock to be complete. -->
+            <FontFamily x:Key="ContentControlThemeFontFamily">ms-appx:///Assets/Fonts/AvianoGothic.ttf#Aviano Gothic  3</FontFamily>
+
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="{StaticResource AvianoGothicFont}" />
             </Style>
