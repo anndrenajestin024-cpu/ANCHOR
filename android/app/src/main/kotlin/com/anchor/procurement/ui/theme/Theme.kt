@@ -7,8 +7,18 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.anchor.procurement.R
+
+// Bundled font files, not system fonts — the exact typefaces from the original
+// design must render identically on every device regardless of what's installed.
+val GordenFamily = FontFamily(Font(R.font.gorden, FontWeight.Normal), Font(R.font.gorden, FontWeight.Bold))
+val AvianoSerifFamily = FontFamily(Font(R.font.aviano_serif, FontWeight.Normal), Font(R.font.aviano_serif, FontWeight.Bold))
+val AvianoGothicFamily = FontFamily(Font(R.font.aviano_gothic, FontWeight.Normal), Font(R.font.aviano_gothic, FontWeight.Bold))
+val GaleyFamily = FontFamily(Font(R.font.galey_regular, FontWeight.Normal), Font(R.font.galey_bold, FontWeight.Bold))
 
 object AnchorColors {
     val Charcoal = Color(0xFF131417)
@@ -61,10 +71,14 @@ private val LightColors = lightColorScheme(
 )
 
 private val AnchorTypography = Typography(
-    titleLarge = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 22.sp),
-    titleMedium = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 17.sp),
-    bodyMedium = TextStyle(fontWeight = FontWeight.Normal, fontSize = 14.sp, lineHeight = 20.sp),
-    labelSmall = TextStyle(fontWeight = FontWeight.Medium, fontSize = 11.sp, letterSpacing = 1.sp),
+    titleLarge = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 22.sp),
+    titleMedium = TextStyle(fontFamily = AvianoSerifFamily, fontWeight = FontWeight.SemiBold, fontSize = 17.sp),
+    bodyMedium = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Normal, fontSize = 14.sp, lineHeight = 20.sp),
+    bodyLarge = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Normal, fontSize = 16.sp, lineHeight = 22.sp),
+    bodySmall = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp, lineHeight = 16.sp),
+    labelSmall = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Medium, fontSize = 11.sp, letterSpacing = 1.sp),
+    labelMedium = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Medium, fontSize = 12.sp),
+    labelLarge = TextStyle(fontFamily = AvianoGothicFamily, fontWeight = FontWeight.Medium, fontSize = 14.sp),
 )
 
 @Composable

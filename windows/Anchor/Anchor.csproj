@@ -19,6 +19,10 @@
 
   <ItemGroup>
     <Content Include="Assets\anchor.ico" />
+    <Content Include="Assets\anchor-logo.png" />
+    <Content Include="Assets\profile-photo.jpg" />
+    <Content Include="Assets\Fonts\*.otf" />
+    <Content Include="Assets\Fonts\*.ttf" />
   </ItemGroup>
 
   <ItemGroup>

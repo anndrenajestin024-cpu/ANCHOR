@@ -1,5 +1,6 @@
 package com.anchor.procurement.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -17,13 +19,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.anchor.procurement.R
 import com.anchor.procurement.ui.AnchorViewModel
 import com.anchor.procurement.ui.theme.AnchorColors
+import com.anchor.procurement.ui.theme.AvianoSerifFamily
+import com.anchor.procurement.ui.theme.GordenFamily
 
 @Composable
 fun LockScreen(viewModel: AnchorViewModel) {
@@ -46,7 +54,14 @@ fun LockScreen(viewModel: AnchorViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text("Anchor", color = Color.White, fontSize = 26.sp, fontWeight = FontWeight.SemiBold)
+        Image(
+            painter = painterResource(R.drawable.profile_photo),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.size(72.dp).clip(CircleShape).padding(bottom = 4.dp),
+        )
+        Text("Anchor", color = Color.White, fontSize = 34.sp, fontFamily = GordenFamily, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 12.dp))
+        Text("Forever my anchor", color = AnchorColors.TextMuted, fontSize = 13.sp, fontFamily = AvianoSerifFamily)
         Text(title, color = Color.White, fontSize = 16.sp, modifier = Modifier.padding(top = 24.dp))
         Text(subtitle, color = AnchorColors.TextMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 6.dp))
 

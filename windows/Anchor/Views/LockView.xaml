@@ -5,7 +5,13 @@
 
     <Grid Background="{StaticResource AnchorCharcoalBrush}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8" Width="320">
-            <TextBlock Text="Anchor" Foreground="White" FontSize="30" FontWeight="SemiBold" HorizontalAlignment="Center" />
+            <Ellipse Width="72" Height="72" HorizontalAlignment="Center" Margin="0,0,0,12">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="ms-appx:///Assets/profile-photo.jpg" Stretch="UniformToFill" />
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock Text="Anchor" Style="{StaticResource AnchorWordmarkTextStyle}" Foreground="White" FontSize="34" HorizontalAlignment="Center" />
+            <TextBlock Text="Forever my anchor" Style="{StaticResource AnchorHeadingTextStyle}" Foreground="{StaticResource AnchorMutedBrush}" FontSize="13" HorizontalAlignment="Center" Margin="0,0,0,4" />
             <TextBlock x:Name="TitleText" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,0" />
             <TextBlock x:Name="SubtitleText" Foreground="{StaticResource AnchorMutedBrush}" FontSize="12" HorizontalAlignment="Center" Margin="0,4,0,20" />
 
