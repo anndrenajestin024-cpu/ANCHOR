@@ -1,12 +1,18 @@
 package com.anchor.procurement.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CameraAlt
@@ -74,6 +80,7 @@ fun AnchorRoot(viewModel: AnchorViewModel) {
 
     val data by viewModel.data.collectAsStateWithLifecycle()
     val toast by viewModel.toast.collectAsStateWithLifecycle()
+    val showGreet by viewModel.showGreet.collectAsStateWithLifecycle()
 
     var tab by remember { mutableStateOf(Tab.Dashboard) }
     var purchaseDetailId by remember { mutableStateOf<String?>(null) }
@@ -165,14 +172,30 @@ fun AnchorRoot(viewModel: AnchorViewModel) {
         },
         snackbarHost = { SnackbarHost(snackbarHostState) { Snackbar(it) } },
     ) { padding ->
-        androidx.compose.foundation.layout.Box(Modifier.padding(padding)) {
-            when (tab) {
-                Tab.Dashboard -> DashboardScreen(viewModel) { purchaseDetailId = it }
-                Tab.Purchases -> PurchasesScreen(viewModel) { purchaseDetailId = it }
-                Tab.Quotes -> QuotesScreen(viewModel)
-                Tab.Suppliers -> SuppliersScreen(viewModel) { supplierDetailId = it }
-                Tab.Budgets -> BudgetsScreen(viewModel)
-                Tab.Reminders -> RemindersScreen(viewModel)
+        androidx.compose.foundation.layout.Column(Modifier.padding(padding).fillMaxWidth()) {
+            AnimatedVisibility(visible = showGreet, enter = fadeIn(), exit = fadeOut()) {
+                Text(
+                    viewModel.greetText,
+                    color = androidx.compose.ui.graphics.Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    letterSpacing = 1.sp,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Brush.linearGradient(listOf(androidx.compose.ui.graphics.Color(0xFF232428), androidx.compose.ui.graphics.Color(0xFF46474B))))
+                        .padding(vertical = 12.dp, horizontal = 18.dp),
+                )
+            }
+            androidx.compose.foundation.layout.Box(Modifier.weight(1f)) {
+                when (tab) {
+                    Tab.Dashboard -> DashboardScreen(viewModel) { purchaseDetailId = it }
+                    Tab.Purchases -> PurchasesScreen(viewModel) { purchaseDetailId = it }
+                    Tab.Quotes -> QuotesScreen(viewModel)
+                    Tab.Suppliers -> SuppliersScreen(viewModel) { supplierDetailId = it }
+                    Tab.Budgets -> BudgetsScreen(viewModel)
+                    Tab.Reminders -> RemindersScreen(viewModel)
+                }
             }
         }
     }

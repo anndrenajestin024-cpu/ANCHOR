@@ -16,6 +16,8 @@ import com.anchor.procurement.data.QuoteGroupEntity
 import com.anchor.procurement.data.ReminderEntity
 import com.anchor.procurement.data.Repository
 import com.anchor.procurement.data.SettingsEntity
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -55,7 +57,24 @@ class AnchorViewModel(private val repository: Repository) : ViewModel() {
     private val _toast = MutableStateFlow("")
     val toast: StateFlow<String> = _toast.asStateFlow()
 
+    private val _showGreet = MutableStateFlow(false)
+    val showGreet: StateFlow<Boolean> = _showGreet.asStateFlow()
+    private var greetJob: Job? = null
+
+    val greetText: String
+        get() = "Welcome back, ${data.value.settings.ownerName} — Your wife loves you ♥"
+
     private var lastActivityAt = System.currentTimeMillis()
+
+    private fun triggerGreetIfNamed() {
+        if (data.value.settings.ownerName.isBlank()) return
+        _showGreet.value = true
+        greetJob?.cancel()
+        greetJob = viewModelScope.launch {
+            delay(8000)
+            _showGreet.value = false
+        }
+    }
 
     fun supplierName(id: String): String = data.value.suppliers.find { it.id == id }?.name ?: id
 
@@ -109,6 +128,7 @@ class AnchorViewModel(private val repository: Repository) : ViewModel() {
                         _pinEntry.value = ""
                         _pinFirstEntry.value = null
                         _pinError.value = ""
+                        triggerGreetIfNamed()
                     } else {
                         _pinEntry.value = ""
                         _pinFirstEntry.value = null
@@ -121,6 +141,7 @@ class AnchorViewModel(private val repository: Repository) : ViewModel() {
                         _pinEntry.value = ""
                         _pinError.value = ""
                         recordActivity()
+                        triggerGreetIfNamed()
                     } else {
                         _pinEntry.value = ""
                         _pinError.value = "Wrong PIN — try again"

@@ -29,10 +29,27 @@ public sealed partial class MainWindow : Window
             {
                 UpdateLockVisibility();
             }
+            else if (e.PropertyName == nameof(AnchorViewModel.ShowGreet))
+            {
+                UpdateGreetVisibility();
+            }
         };
 
         UpdateLockVisibility();
         ShowDashboard();
+    }
+
+    private void UpdateGreetVisibility()
+    {
+        if (ViewModel.ShowGreet)
+        {
+            GreetText.Text = ViewModel.GreetText;
+            GreetBar.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            GreetBar.Visibility = Visibility.Collapsed;
+        }
     }
 
     private void UpdateLockVisibility()

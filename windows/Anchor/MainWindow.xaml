@@ -34,8 +34,23 @@
                     <NavigationViewItem Content="Budgets" Tag="budgets" Icon="PieSingleSeries" />
                     <NavigationViewItem Content="Reminders" Tag="reminders" Icon="Clock" />
                 </NavigationView.MenuItems>
-                <Grid Padding="24">
-                    <ContentPresenter x:Name="ContentHost" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border x:Name="GreetBar" Grid.Row="0" Visibility="Collapsed" Padding="18,12">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF232428" Offset="0" />
+                                <GradientStop Color="#FF46474B" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="GreetText" Foreground="White" FontWeight="Bold" FontSize="12" HorizontalAlignment="Center" TextAlignment="Center" />
+                    </Border>
+                    <Grid Grid.Row="1" Padding="24">
+                        <ContentPresenter x:Name="ContentHost" />
+                    </Grid>
                 </Grid>
             </NavigationView>
         </Grid>

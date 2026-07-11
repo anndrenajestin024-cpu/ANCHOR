@@ -24,16 +24,32 @@ public partial class AnchorViewModel : ObservableObject
     [ObservableProperty] private string pinError = "";
     [ObservableProperty] private string range = "all";
     [ObservableProperty] private string toast = "";
+    [ObservableProperty] private bool showGreet = false;
 
     public PurchaseFilters Filters { get; } = new();
 
+    public string GreetText => $"Welcome back, {Data.Settings.OwnerName} — Your wife loves you ♥";
+
     private string? _pinFirstEntry;
     private DateTime _lastActivity = DateTime.Now;
+    private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _greetTimer;
 
     public AnchorViewModel(Store store)
     {
         _store = store;
         data = _store.Load();
+        _greetTimer = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().CreateTimer();
+        _greetTimer.Interval = TimeSpan.FromSeconds(8);
+        _greetTimer.IsRepeating = false;
+        _greetTimer.Tick += (_, _) => ShowGreet = false;
+    }
+
+    private void TriggerGreetIfNamed()
+    {
+        if (string.IsNullOrWhiteSpace(Data.Settings.OwnerName)) return;
+        ShowGreet = true;
+        _greetTimer.Stop();
+        _greetTimer.Start();
     }
 
     private void Persist() => _store.Save(Data);
@@ -89,6 +105,7 @@ public partial class AnchorViewModel : ObservableObject
                         PinEntry = "";
                         _pinFirstEntry = null;
                         PinError = "";
+                        TriggerGreetIfNamed();
                     }
                     else
                     {
@@ -104,6 +121,7 @@ public partial class AnchorViewModel : ObservableObject
                         PinEntry = "";
                         PinError = "";
                         RecordActivity();
+                        TriggerGreetIfNamed();
                     }
                     else
                     {
