@@ -4,6 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ScrollViewer>
-        <StackPanel x:Name="BudgetsList" Spacing="12" MaxWidth="700" HorizontalAlignment="Stretch" />
+        <StackPanel x:Name="BudgetsList" MaxWidth="700" HorizontalAlignment="Stretch" />
     </ScrollViewer>
 </UserControl>

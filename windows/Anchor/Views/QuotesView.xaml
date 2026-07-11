@@ -8,9 +8,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Button Grid.Row="0" Content="+ Add quote" HorizontalAlignment="Right" Margin="0,0,0,10" Click="AddButton_Click" />
+        <Button Grid.Row="0" Content="+ Add quote" Padding="10,6" HorizontalAlignment="Right" Margin="0,0,0,10" Click="AddButton_Click" />
         <ScrollViewer Grid.Row="1">
-            <StackPanel x:Name="GroupsList" Spacing="12" MaxWidth="700" HorizontalAlignment="Stretch" />
+            <StackPanel x:Name="GroupsList" MaxWidth="700" HorizontalAlignment="Stretch" />
         </ScrollViewer>
     </Grid>
 </UserControl>

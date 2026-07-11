@@ -1,11 +1,10 @@
+using System.Windows;
 using Anchor.Data;
-using Anchor.Models;
 using Anchor.ViewModels;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Anchor.Views;
 
-public sealed partial class AddPurchaseDialog : ContentDialog
+public partial class AddPurchaseDialog : Window
 {
     private readonly AnchorViewModel _vm;
 
@@ -25,7 +24,7 @@ public sealed partial class AddPurchaseDialog : ContentDialog
         DateBox.Text = Format.Today();
     }
 
-    private void OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    private void Save_Click(object sender, RoutedEventArgs e)
     {
         _vm.AddPurchase(
             ItemBox.Text,
@@ -38,5 +37,8 @@ public sealed partial class AddPurchaseDialog : ContentDialog
             StatusBox.SelectedItem as string ?? "Requested",
             NotesBox.Text,
             AttachBox.SelectedItem as string ?? "None");
+        Close();
     }
+
+    private void Cancel_Click(object sender, RoutedEventArgs e) => Close();
 }

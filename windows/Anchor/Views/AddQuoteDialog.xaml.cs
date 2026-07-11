@@ -1,10 +1,10 @@
+using System.Windows;
+using System.Windows.Controls;
 using Anchor.ViewModels;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Anchor.Views;
 
-public sealed partial class AddQuoteDialog : ContentDialog
+public partial class AddQuoteDialog : Window
 {
     private const string NewComparisonOption = "＋ New comparison…";
     private readonly AnchorViewModel _vm;
@@ -26,11 +26,11 @@ public sealed partial class AddQuoteDialog : ContentDialog
     private void GroupBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var isNew = GroupBox.SelectedItem as string == NewComparisonOption;
-        NewTitleBox.Visibility = isNew ? Visibility.Visible : Visibility.Collapsed;
-        CategoryBox.Visibility = isNew ? Visibility.Visible : Visibility.Collapsed;
+        NewTitlePanel.Visibility = isNew ? Visibility.Visible : Visibility.Collapsed;
+        CategoryPanel.Visibility = isNew ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    private void OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    private void Save_Click(object sender, RoutedEventArgs e)
     {
         var selected = GroupBox.SelectedItem as string;
         var isNew = selected == NewComparisonOption;
@@ -42,5 +42,8 @@ public sealed partial class AddQuoteDialog : ContentDialog
             double.TryParse(QtyBox.Text, out var qty) ? qty : 0,
             double.TryParse(PriceBox.Text, out var price) ? price : 0,
             ValidUntilBox.Text);
+        Close();
     }
+
+    private void Cancel_Click(object sender, RoutedEventArgs e) => Close();
 }

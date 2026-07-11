@@ -1,13 +1,12 @@
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Anchor.Data;
 using Anchor.ViewModels;
-using Microsoft.UI.Text;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 
 namespace Anchor.Views;
 
-public sealed partial class QuotesView : UserControl
+public partial class QuotesView : UserControl
 {
     private readonly AnchorViewModel _vm;
 
@@ -24,8 +23,8 @@ public sealed partial class QuotesView : UserControl
 
     private void AddButton_Click(object sender, RoutedEventArgs e)
     {
-        var dialog = new AddQuoteDialog(_vm) { XamlRoot = XamlRoot };
-        _ = dialog.ShowAsync();
+        var dialog = new AddQuoteDialog(_vm) { Owner = Window.GetWindow(this) };
+        dialog.ShowDialog();
     }
 
     private void Render()
@@ -40,8 +39,8 @@ public sealed partial class QuotesView : UserControl
             var totals = g.Quotes.Select(q => q.Price * g.Qty).ToList();
             var minTotal = totals.Count > 0 ? totals.Min() : 0;
 
-            var card = new Border { Background = new SolidColorBrush(Microsoft.UI.Colors.White), CornerRadius = new CornerRadius(12), Padding = new Thickness(16) };
-            var stack = new StackPanel { Spacing = 6 };
+            var card = new Border { Background = Brushes.White, CornerRadius = new CornerRadius(12), Padding = new Thickness(16), Margin = new Thickness(0, 0, 0, 12) };
+            var stack = new StackPanel();
 
             var header = new Grid();
             header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -54,7 +53,7 @@ public sealed partial class QuotesView : UserControl
             header.Children.Add(titleText);
             header.Children.Add(stText);
             stack.Children.Add(header);
-            stack.Children.Add(new TextBlock { Text = $"{g.Qty} {g.Unit} · {g.Category} · {g.Quotes.Count} quotes", FontSize = 12, Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 166, 167, 172)) });
+            stack.Children.Add(new TextBlock { Text = $"{g.Qty} {g.Unit} · {g.Category} · {g.Quotes.Count} quotes", FontSize = 12, Foreground = new SolidColorBrush(Color.FromArgb(255, 166, 167, 172)), Margin = new Thickness(0, 6, 0, 0) });
 
             foreach (var q in g.Quotes.OrderBy(x => x.Price))
             {
@@ -67,14 +66,14 @@ public sealed partial class QuotesView : UserControl
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
                 var left = new StackPanel();
                 left.Children.Add(new TextBlock { Text = _vm.SupplierName(q.SupplierId), FontSize = 13, FontWeight = FontWeights.Medium });
-                left.Children.Add(new TextBlock { Text = $"{Format.Money(q.Price, currency)} / unit · valid {Format.FDate(q.ValidUntil)}", FontSize = 11, Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 166, 167, 172)) });
+                left.Children.Add(new TextBlock { Text = $"{Format.Money(q.Price, currency)} / unit · valid {Format.FDate(q.ValidUntil)}", FontSize = 11, Foreground = new SolidColorBrush(Color.FromArgb(255, 166, 167, 172)) });
                 Grid.SetColumn(left, 0);
 
-                var right = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6, HorizontalAlignment = HorizontalAlignment.Right };
-                right.Children.Add(new TextBlock { Text = Format.Money(total, currency, 0), FontSize = 13, FontWeight = FontWeights.SemiBold });
+                var right = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
+                right.Children.Add(new TextBlock { Text = Format.Money(total, currency, 0), FontSize = 13, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 6, 0) });
                 if (cheapest || selected)
                 {
-                    right.Children.Add(new TextBlock { Text = selected ? "Selected" : "Lowest", FontSize = 11, Foreground = new SolidColorBrush(selected ? Windows.UI.Color.FromArgb(255, 85, 86, 91) : Windows.UI.Color.FromArgb(255, 94, 122, 76)) });
+                    right.Children.Add(new TextBlock { Text = selected ? "Selected" : "Lowest", FontSize = 11, Foreground = new SolidColorBrush(selected ? Color.FromArgb(255, 85, 86, 91) : Color.FromArgb(255, 94, 122, 76)) });
                 }
                 Grid.SetColumn(right, 1);
                 row.Children.Add(left);
@@ -83,7 +82,7 @@ public sealed partial class QuotesView : UserControl
 
                 if (active && !selected)
                 {
-                    var selectBtn = new Button { Content = "Select this quote", HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 4, 0, 0) };
+                    var selectBtn = new Button { Content = "Select this quote", HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 4, 0, 0), Padding = new Thickness(0, 6, 0, 6) };
                     var gid = g.Id; var qid = q.Id;
                     selectBtn.Click += (_, _) => _vm.SelectQuote(gid, qid);
                     stack.Children.Add(selectBtn);
@@ -96,9 +95,9 @@ public sealed partial class QuotesView : UserControl
                 var savings = (totals.Count > 0 ? totals.Max() : 0) - selQ.Price * g.Qty;
                 if (savings > 0)
                 {
-                    stack.Children.Add(new TextBlock { Text = $"Savings: {Format.Money(savings, currency, 0)}", FontSize = 13, FontWeight = FontWeights.SemiBold, Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 94, 122, 76)), Margin = new Thickness(0, 8, 0, 0) });
+                    stack.Children.Add(new TextBlock { Text = $"Savings: {Format.Money(savings, currency, 0)}", FontSize = 13, FontWeight = FontWeights.SemiBold, Foreground = new SolidColorBrush(Color.FromArgb(255, 94, 122, 76)), Margin = new Thickness(0, 8, 0, 0) });
                 }
-                var convertBtn = new Button { Content = "Convert to purchase", HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 8, 0, 0) };
+                var convertBtn = new Button { Content = "Convert to purchase", HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 8, 0, 0), Padding = new Thickness(0, 6, 0, 6) };
                 var gid2 = g.Id;
                 convertBtn.Click += (_, _) => _vm.ConvertGroupToPurchase(gid2);
                 stack.Children.Add(convertBtn);

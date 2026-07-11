@@ -1,13 +1,12 @@
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Anchor.Data;
 using Anchor.ViewModels;
-using Microsoft.UI.Text;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 
 namespace Anchor.Views;
 
-public sealed partial class BudgetsView : UserControl
+public partial class BudgetsView : UserControl
 {
     private readonly AnchorViewModel _vm;
 
@@ -36,12 +35,12 @@ public sealed partial class BudgetsView : UserControl
             var frac = hasBudget ? spent / b.Amount : 0;
             var over = hasBudget && frac > 1.0;
             var warn = hasBudget && frac >= alertFrac;
-            var barColor = over ? Windows.UI.Color.FromArgb(255, 184, 92, 72) : warn ? Windows.UI.Color.FromArgb(255, 208, 160, 80) : Windows.UI.Color.FromArgb(255, 143, 172, 120);
+            var barColor = over ? Color.FromArgb(255, 184, 92, 72) : warn ? Color.FromArgb(255, 208, 160, 80) : Color.FromArgb(255, 143, 172, 120);
 
-            var card = new Border { Background = new SolidColorBrush(Microsoft.UI.Colors.White), CornerRadius = new CornerRadius(12), Padding = new Thickness(16) };
-            var stack = new StackPanel { Spacing = 8 };
+            var card = new Border { Background = Brushes.White, CornerRadius = new CornerRadius(12), Padding = new Thickness(16), Margin = new Thickness(0, 0, 0, 12) };
+            var stack = new StackPanel();
 
-            var header = new Grid();
+            var header = new Grid { Margin = new Thickness(0, 0, 0, 8) };
             header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             header.Children.Add(new TextBlock { Text = b.Category, FontSize = 15, FontWeight = FontWeights.Medium });
@@ -51,16 +50,16 @@ public sealed partial class BudgetsView : UserControl
             header.Children.Add(varLabel);
             stack.Children.Add(header);
 
-            var barBg = new Border { Height = 8, CornerRadius = new CornerRadius(4), Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 228, 229, 233)) };
+            var barBg = new Border { Height = 8, CornerRadius = new CornerRadius(4), Background = new SolidColorBrush(Color.FromArgb(255, 228, 229, 233)) };
             var barFg = new Border { Height = 8, CornerRadius = new CornerRadius(4), Background = new SolidColorBrush(barColor), HorizontalAlignment = HorizontalAlignment.Left, Width = Math.Max(Math.Min(frac, 1.0) * 500, 2) };
-            var barGrid = new Grid();
+            var barGrid = new Grid { Margin = new Thickness(0, 0, 0, 8) };
             barGrid.Children.Add(barBg);
             barGrid.Children.Add(barFg);
             stack.Children.Add(barGrid);
 
-            var editRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
-            var amountBox = new TextBox { Width = 160, Text = hasBudget ? b.Amount.ToString("0") : "", PlaceholderText = "Budget amount" };
-            var saveBtn = new Button { Content = "Save" };
+            var editRow = new StackPanel { Orientation = Orientation.Horizontal };
+            var amountBox = new TextBox { Width = 160, Text = hasBudget ? b.Amount.ToString("0") : "", Padding = new Thickness(6), Margin = new Thickness(0, 0, 8, 0) };
+            var saveBtn = new Button { Content = "Save", Padding = new Thickness(10, 6, 10, 6) };
             var category = b.Category;
             saveBtn.Click += (_, _) => _vm.SetBudget(category, double.TryParse(amountBox.Text, out var v) ? v : 0);
             editRow.Children.Add(amountBox);

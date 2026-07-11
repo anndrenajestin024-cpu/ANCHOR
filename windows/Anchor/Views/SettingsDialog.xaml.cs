@@ -1,14 +1,13 @@
+using System.IO;
+using System.Windows;
 using Anchor.Data;
 using Anchor.Models;
 using Anchor.ViewModels;
-using Microsoft.UI.Xaml.Controls;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using WinRT.Interop;
+using Microsoft.Win32;
 
 namespace Anchor.Views;
 
-public sealed partial class SettingsDialog : ContentDialog
+public partial class SettingsDialog : Window
 {
     private readonly AnchorViewModel _vm;
 
@@ -26,49 +25,41 @@ public sealed partial class SettingsDialog : ContentDialog
         AutoLockBox.SelectedIndex = s.AutoLockMinutes switch { 0 => 0, 1 => 1, 5 => 2, 15 => 3, _ => 2 };
     }
 
-    private void OnSaveClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    private void Save_Click(object sender, RoutedEventArgs e)
     {
         var autoLock = AutoLockBox.SelectedIndex switch { 0 => 0, 1 => 1, 2 => 5, 3 => 15, _ => 5 };
         var pct = int.TryParse(BudgetAlertBox.Text, out var p) ? Math.Clamp(p, 70, 100) : _vm.Data.Settings.BudgetAlertPct;
         _vm.SaveSettings(CurrencyBox.SelectedItem as string ?? "AED", _vm.Data.Settings.AppLockEnabled, pct, autoLock, OwnerBox.Text);
+        Close();
     }
 
-    private void LockNow_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void Close_Click(object sender, RoutedEventArgs e) => Close();
+
+    private void LockNow_Click(object sender, RoutedEventArgs e)
     {
         _vm.LockNow();
-        Hide();
+        Close();
     }
 
-    private nint GetWindowHandle() => WindowNative.GetWindowHandle(App.MainWindowInstance);
-
-    private async void DownloadBackup_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void DownloadBackup_Click(object sender, RoutedEventArgs e)
     {
-        var picker = new FileSavePicker();
-        InitializeWithWindow.Initialize(picker, GetWindowHandle());
-        picker.SuggestedFileName = "anchor-backup";
-        picker.FileTypeChoices.Add("JSON", new List<string> { ".json" });
+        var dialog = new SaveFileDialog { FileName = "anchor-backup", DefaultExt = ".json", Filter = "JSON|*.json" };
+        if (dialog.ShowDialog() != true) return;
 
-        var file = await picker.PickSaveFileAsync();
-        if (file == null) return;
-
-        await FileIO.WriteTextAsync(file, _vm.ExportBackupJson());
+        File.WriteAllText(dialog.FileName, _vm.ExportBackupJson());
         BackupMsg.Text = "Backup saved.";
     }
 
-    private async void RestoreBackup_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void RestoreBackup_Click(object sender, RoutedEventArgs e)
     {
-        var picker = new FileOpenPicker();
-        InitializeWithWindow.Initialize(picker, GetWindowHandle());
-        picker.FileTypeFilter.Add(".json");
+        var dialog = new OpenFileDialog { Filter = "JSON|*.json" };
+        if (dialog.ShowDialog() != true) return;
 
-        var file = await picker.PickSingleFileAsync();
-        if (file == null) return;
-
-        var json = await FileIO.ReadTextAsync(file);
+        var json = File.ReadAllText(dialog.FileName);
         BackupMsg.Text = _vm.RestoreBackup(json);
     }
 
-    private void ResetSample_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) => _vm.ResetToSampleData();
+    private void ResetSample_Click(object sender, RoutedEventArgs e) => _vm.ResetToSampleData();
 
-    private void ClearAll_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) => _vm.ClearAllData();
+    private void ClearAll_Click(object sender, RoutedEventArgs e) => _vm.ClearAllData();
 }

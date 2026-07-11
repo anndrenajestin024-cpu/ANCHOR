@@ -4,28 +4,48 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid Background="{StaticResource AnchorCharcoalBrush}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8" Width="320">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="320">
             <Ellipse Width="72" Height="72" HorizontalAlignment="Center" Margin="0,0,0,12">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="Assets/profile-photo.jpg" Stretch="UniformToFill" />
+                    <ImageBrush ImageSource="pack://siteoforigin:,,,/Assets/profile-photo.jpg" Stretch="UniformToFill" />
                 </Ellipse.Fill>
             </Ellipse>
-            <TextBlock Text="Anchor" Style="{StaticResource AnchorWordmarkTextStyle}" Foreground="White" FontSize="34" HorizontalAlignment="Center" />
+            <TextBlock Text="Anchor" Style="{StaticResource AnchorWordmarkTextStyle}" Foreground="White" FontSize="34" HorizontalAlignment="Center" Margin="0,0,0,8" />
             <TextBlock Text="Forever my anchor" Style="{StaticResource AnchorHeadingTextStyle}" Foreground="{StaticResource AnchorMutedBrush}" FontSize="13" HorizontalAlignment="Center" Margin="0,0,0,4" />
             <TextBlock x:Name="TitleText" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,0" />
             <TextBlock x:Name="SubtitleText" Foreground="{StaticResource AnchorMutedBrush}" FontSize="12" HorizontalAlignment="Center" Margin="0,4,0,20" />
 
             <TextBlock x:Name="ErrorText" Foreground="{StaticResource AnchorDangerBrush}" FontSize="12" HorizontalAlignment="Center" Margin="0,0,0,12" />
 
-            <Grid>
+            <Grid Margin="0,0,0,4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="D1" Grid.Column="0" Content="1" Click="DigitClick" Margin="4" />
-                <Button x:Name="D2" Grid.Column="1" Content="2" Click="DigitClick" Margin="4" />
-                <Button x:Name="D3" Grid.Column="2" Content="3" Click="DigitClick" Margin="4" />
+                <Button x:Name="D1" Grid.Column="0" Content="1" Click="DigitClick" Margin="4" Padding="8" />
+                <Button x:Name="D2" Grid.Column="1" Content="2" Click="DigitClick" Margin="4" Padding="8" />
+                <Button x:Name="D3" Grid.Column="2" Content="3" Click="DigitClick" Margin="4" Padding="8" />
+            </Grid>
+            <Grid Margin="0,0,0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="D4" Grid.Column="0" Content="4" Click="DigitClick" Margin="4" Padding="8" />
+                <Button x:Name="D5" Grid.Column="1" Content="5" Click="DigitClick" Margin="4" Padding="8" />
+                <Button x:Name="D6" Grid.Column="2" Content="6" Click="DigitClick" Margin="4" Padding="8" />
+            </Grid>
+            <Grid Margin="0,0,0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="D7" Grid.Column="0" Content="7" Click="DigitClick" Margin="4" Padding="8" />
+                <Button x:Name="D8" Grid.Column="1" Content="8" Click="DigitClick" Margin="4" Padding="8" />
+                <Button x:Name="D9" Grid.Column="2" Content="9" Click="DigitClick" Margin="4" Padding="8" />
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -33,29 +53,9 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="D4" Grid.Column="0" Content="4" Click="DigitClick" Margin="4" />
-                <Button x:Name="D5" Grid.Column="1" Content="5" Click="DigitClick" Margin="4" />
-                <Button x:Name="D6" Grid.Column="2" Content="6" Click="DigitClick" Margin="4" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button x:Name="D7" Grid.Column="0" Content="7" Click="DigitClick" Margin="4" />
-                <Button x:Name="D8" Grid.Column="1" Content="8" Click="DigitClick" Margin="4" />
-                <Button x:Name="D9" Grid.Column="2" Content="9" Click="DigitClick" Margin="4" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="" IsEnabled="False" Margin="4" Opacity="0" />
-                <Button x:Name="D0" Grid.Column="1" Content="0" Click="DigitClick" Margin="4" />
-                <Button x:Name="DBack" Grid.Column="2" Content="⌫" Click="BackClick" Margin="4" />
+                <Button Grid.Column="0" Content="" IsEnabled="False" Margin="4" Padding="8" Opacity="0" />
+                <Button x:Name="D0" Grid.Column="1" Content="0" Click="DigitClick" Margin="4" Padding="8" />
+                <Button x:Name="DBack" Grid.Column="2" Content="⌫" Click="BackClick" Margin="4" Padding="8" />
             </Grid>
         </StackPanel>
     </Grid>

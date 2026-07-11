@@ -1,29 +1,44 @@
-<ContentDialog
+<Window
     x:Class="Anchor.Views.SettingsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Settings"
-    PrimaryButtonText="Save"
-    CloseButtonText="Close"
-    PrimaryButtonClick="OnSaveClick">
+    WindowStartupLocation="CenterOwner" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+    Background="{StaticResource AnchorCreamBrush}">
 
-    <ScrollViewer MaxHeight="520">
-        <StackPanel Spacing="10" Width="380">
-            <TextBox x:Name="OwnerBox" Header="Your name" />
-            <ComboBox x:Name="CurrencyBox" Header="Currency" HorizontalAlignment="Stretch" />
-            <TextBox x:Name="BudgetAlertBox" Header="Budget alert % (70-100)" />
-            <ComboBox x:Name="AutoLockBox" Header="Auto-lock" HorizontalAlignment="Stretch" />
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <Button Content="Lock now" HorizontalAlignment="Stretch" Click="LockNow_Click" Margin="0,8,0,0" />
+        <ScrollViewer Grid.Row="0" MaxHeight="520">
+            <StackPanel Width="380">
+                <TextBlock Text="Your name" Style="{StaticResource AnchorFieldLabel}" />
+                <TextBox x:Name="OwnerBox" Padding="6" Margin="0,0,0,10" />
+                <TextBlock Text="Currency" Style="{StaticResource AnchorFieldLabel}" />
+                <ComboBox x:Name="CurrencyBox" HorizontalAlignment="Stretch" Margin="0,0,0,10" />
+                <TextBlock Text="Budget alert % (70-100)" Style="{StaticResource AnchorFieldLabel}" />
+                <TextBox x:Name="BudgetAlertBox" Padding="6" Margin="0,0,0,10" />
+                <TextBlock Text="Auto-lock" Style="{StaticResource AnchorFieldLabel}" />
+                <ComboBox x:Name="AutoLockBox" HorizontalAlignment="Stretch" Margin="0,0,0,10" />
 
-            <TextBlock Text="BACKUP &amp; RESTORE" FontSize="11" FontWeight="SemiBold" Margin="0,12,0,0" />
-            <TextBlock x:Name="BackupMsg" FontSize="12" TextWrapping="Wrap" Text="Backup is a single file with all purchases, quotes, suppliers, budgets and reminders." />
-            <Button Content="Download backup" HorizontalAlignment="Stretch" Click="DownloadBackup_Click" />
-            <Button Content="Restore from backup" HorizontalAlignment="Stretch" Click="RestoreBackup_Click" />
+                <Button Content="Lock now" HorizontalAlignment="Stretch" Padding="0,8" Click="LockNow_Click" Margin="0,8,0,0" />
 
-            <TextBlock Text="DATA" FontSize="11" FontWeight="SemiBold" Margin="0,12,0,0" />
-            <Button Content="Reset to sample data" HorizontalAlignment="Stretch" Click="ResetSample_Click" />
-            <Button Content="Clear all data" HorizontalAlignment="Stretch" Click="ClearAll_Click" />
+                <TextBlock Text="BACKUP &amp; RESTORE" FontSize="11" FontWeight="SemiBold" Margin="0,16,0,4" />
+                <TextBlock x:Name="BackupMsg" FontSize="12" TextWrapping="Wrap" Text="Backup is a single file with all purchases, quotes, suppliers, budgets and reminders." Margin="0,0,0,8" />
+                <Button Content="Download backup" HorizontalAlignment="Stretch" Padding="0,8" Click="DownloadBackup_Click" Margin="0,0,0,6" />
+                <Button Content="Restore from backup" HorizontalAlignment="Stretch" Padding="0,8" Click="RestoreBackup_Click" />
+
+                <TextBlock Text="DATA" FontSize="11" FontWeight="SemiBold" Margin="0,16,0,4" />
+                <Button Content="Reset to sample data" HorizontalAlignment="Stretch" Padding="0,8" Click="ResetSample_Click" Margin="0,0,0,6" />
+                <Button Content="Clear all data" HorizontalAlignment="Stretch" Padding="0,8" Click="ClearAll_Click" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="Close" Padding="14,7" Margin="0,0,8,0" Click="Close_Click" />
+            <Button Content="Save" Padding="14,7" Click="Save_Click" />
         </StackPanel>
-    </ScrollViewer>
-</ContentDialog>
+    </Grid>
+</Window>

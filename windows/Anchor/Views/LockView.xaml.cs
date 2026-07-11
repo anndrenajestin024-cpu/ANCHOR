@@ -1,9 +1,10 @@
+using System.Windows;
+using System.Windows.Controls;
 using Anchor.ViewModels;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Anchor.Views;
 
-public sealed partial class LockView : UserControl
+public partial class LockView : UserControl
 {
     private AnchorViewModel? _vm;
     private Action? _onUnlocked;
@@ -34,7 +35,7 @@ public sealed partial class LockView : UserControl
         ErrorText.Text = _vm.PinError;
     }
 
-    private void DigitClick(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void DigitClick(object sender, RoutedEventArgs e)
     {
         if (_vm == null) return;
         var digit = ((Button)sender).Content?.ToString() ?? "";
@@ -44,7 +45,7 @@ public sealed partial class LockView : UserControl
         if (wasLocked && !_vm.Locked) _onUnlocked?.Invoke();
     }
 
-    private void BackClick(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void BackClick(object sender, RoutedEventArgs e)
     {
         if (_vm == null) return;
         _vm.PressPinKey("⌫");

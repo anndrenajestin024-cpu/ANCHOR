@@ -16,18 +16,18 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="SearchBox" Grid.Column="0" PlaceholderText="Search purchases" TextChanged="SearchBox_TextChanged" />
-            <Button x:Name="AddButton" Grid.Column="1" Content="+ Add purchase" Margin="8,0,0,0" Click="AddButton_Click" />
+            <TextBox x:Name="SearchBox" Grid.Column="0" Padding="6" TextChanged="SearchBox_TextChanged" />
+            <Button x:Name="AddButton" Grid.Column="1" Content="+ Add purchase" Padding="10,6" Margin="8,0,0,0" Click="AddButton_Click" />
         </Grid>
 
-        <ScrollViewer Grid.Row="1" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Disabled" Margin="0,0,0,10">
-            <StackPanel x:Name="StatusChips" Orientation="Horizontal" Spacing="8" />
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,10">
+            <StackPanel x:Name="StatusChips" Orientation="Horizontal" />
         </ScrollViewer>
 
         <TextBlock x:Name="ResultCount" Grid.Row="2" FontSize="12" Foreground="{StaticResource AnchorMutedBrush}" Margin="0,0,0,10" />
 
         <ScrollViewer Grid.Row="3">
-            <StackPanel x:Name="RowsList" Spacing="8" />
+            <StackPanel x:Name="RowsList" />
         </ScrollViewer>
     </Grid>
 </UserControl>

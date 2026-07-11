@@ -1,13 +1,12 @@
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Anchor.Data;
 using Anchor.ViewModels;
-using Microsoft.UI.Text;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 
 namespace Anchor.Views;
 
-public sealed partial class DashboardView : UserControl
+public partial class DashboardView : UserControl
 {
     private readonly AnchorViewModel _vm;
     private readonly Action<string> _onOpenPurchase;
@@ -30,7 +29,7 @@ public sealed partial class DashboardView : UserControl
         RangeChips.Children.Clear();
         foreach (var (value, label) in new[] { ("all", "All time"), ("6m", "6 months"), ("3m", "3 months"), ("30d", "30 days") })
         {
-            var btn = new Button { Content = label, Tag = value };
+            var btn = new Button { Content = label, Tag = value, Margin = new Thickness(0, 0, 8, 0) };
             btn.Click += (_, _) => { _vm.SetRange(value); };
             RangeChips.Children.Add(btn);
         }
@@ -64,7 +63,7 @@ public sealed partial class DashboardView : UserControl
         foreach (var (cat, amt) in byCategory)
         {
             var frac = totalSpend > 0 ? amt / totalSpend : 0;
-            var row = new StackPanel { Spacing = 4 };
+            var row = new StackPanel { Margin = new Thickness(0, 0, 0, 10) };
             var header = new Grid();
             header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -74,9 +73,9 @@ public sealed partial class DashboardView : UserControl
             Grid.SetColumn(amtText, 1);
             header.Children.Add(catText);
             header.Children.Add(amtText);
-            var barBg = new Border { Height = 6, CornerRadius = new CornerRadius(3), Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 228, 229, 233)) };
-            var barFg = new Border { Height = 6, CornerRadius = new CornerRadius(3), Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 91, 123, 154)), HorizontalAlignment = HorizontalAlignment.Left, Width = Math.Max(frac * 260, 2) };
-            var barGrid = new Grid { Width = 260 };
+            var barBg = new Border { Height = 6, CornerRadius = new CornerRadius(3), Background = new SolidColorBrush(Color.FromArgb(255, 228, 229, 233)), Margin = new Thickness(0, 4, 0, 0) };
+            var barFg = new Border { Height = 6, CornerRadius = new CornerRadius(3), Background = new SolidColorBrush(Color.FromArgb(255, 91, 123, 154)), HorizontalAlignment = HorizontalAlignment.Left, Width = Math.Max(frac * 260, 2) };
+            var barGrid = new Grid { Width = 260, Margin = new Thickness(0, 4, 0, 0) };
             barGrid.Children.Add(barBg);
             barGrid.Children.Add(barFg);
             row.Children.Add(header);
@@ -90,7 +89,7 @@ public sealed partial class DashboardView : UserControl
             var row = new Button
             {
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
-                Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent),
+                Background = Brushes.Transparent,
                 BorderThickness = new Thickness(0),
                 Padding = new Thickness(0, 8, 0, 8),
             };
@@ -99,7 +98,7 @@ public sealed partial class DashboardView : UserControl
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             var left = new StackPanel();
             left.Children.Add(new TextBlock { Text = p.Item, FontSize = 14 });
-            left.Children.Add(new TextBlock { Text = $"{_vm.SupplierName(p.SupplierId)} · {Format.FDate(p.Date)} · {p.Status}", FontSize = 12, Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 166, 167, 172)) });
+            left.Children.Add(new TextBlock { Text = $"{_vm.SupplierName(p.SupplierId)} · {Format.FDate(p.Date)} · {p.Status}", FontSize = 12, Foreground = new SolidColorBrush(Color.FromArgb(255, 166, 167, 172)) });
             Grid.SetColumn(left, 0);
             var right = new TextBlock { Text = Format.Money(p.Total, currency, 0), FontSize = 13, FontWeight = FontWeights.SemiBold, VerticalAlignment = VerticalAlignment.Center };
             Grid.SetColumn(right, 1);

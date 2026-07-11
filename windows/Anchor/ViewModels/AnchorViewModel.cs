@@ -32,16 +32,14 @@ public partial class AnchorViewModel : ObservableObject
 
     private string? _pinFirstEntry;
     private DateTime _lastActivity = DateTime.Now;
-    private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _greetTimer;
+    private readonly System.Windows.Threading.DispatcherTimer _greetTimer;
 
     public AnchorViewModel(Store store)
     {
         _store = store;
         data = _store.Load();
-        _greetTimer = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().CreateTimer();
-        _greetTimer.Interval = TimeSpan.FromSeconds(8);
-        _greetTimer.IsRepeating = false;
-        _greetTimer.Tick += (_, _) => ShowGreet = false;
+        _greetTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromSeconds(8) };
+        _greetTimer.Tick += (_, _) => { ShowGreet = false; _greetTimer.Stop(); };
     }
 
     private void TriggerGreetIfNamed()

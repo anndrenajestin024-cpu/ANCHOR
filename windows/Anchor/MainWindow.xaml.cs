@@ -1,12 +1,12 @@
+using System.Windows;
+using System.Windows.Controls;
 using Anchor.Data;
 using Anchor.ViewModels;
 using Anchor.Views;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Anchor;
 
-public sealed partial class MainWindow : Window
+public partial class MainWindow : Window
 {
     public AnchorViewModel ViewModel { get; }
 
@@ -17,10 +17,22 @@ public sealed partial class MainWindow : Window
     private BudgetsView? _budgets;
     private RemindersView? _reminders;
 
+    private readonly (string Tag, string Label)[] _navItems =
+    {
+        ("dashboard", "Dashboard"),
+        ("purchases", "Purchases"),
+        ("quotes", "Quotes"),
+        ("suppliers", "Suppliers"),
+        ("budgets", "Budgets"),
+        ("reminders", "Reminders"),
+    };
+
     public MainWindow()
     {
         InitializeComponent();
         ViewModel = new AnchorViewModel(new Store());
+
+        BuildNav();
 
         LockViewControl.Initialize(ViewModel, OnUnlocked);
         ViewModel.PropertyChanged += (_, e) =>
@@ -39,16 +51,24 @@ public sealed partial class MainWindow : Window
         ShowDashboard();
     }
 
-    private void UpdateGreetVisibility()
+    private void BuildNav()
     {
-        if (ViewModel.ShowGreet)
+        foreach (var (tag, label) in _navItems)
         {
-            GreetText.Text = ViewModel.GreetText;
-            GreetBar.Visibility = Visibility.Visible;
-        }
-        else
-        {
-            GreetBar.Visibility = Visibility.Collapsed;
+            var btn = new Button
+            {
+                Content = label,
+                Tag = tag,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                HorizontalContentAlignment = HorizontalAlignment.Left,
+                Padding = new Thickness(10, 8, 10, 8),
+                Margin = new Thickness(0, 2, 0, 2),
+                Background = System.Windows.Media.Brushes.Transparent,
+                Foreground = System.Windows.Media.Brushes.White,
+                BorderThickness = new Thickness(0),
+            };
+            btn.Click += (_, _) => NavigateTo(tag);
+            NavPanel.Children.Add(btn);
         }
     }
 
@@ -67,31 +87,27 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    private void UpdateGreetVisibility()
+    {
+        if (ViewModel.ShowGreet)
+        {
+            GreetText.Text = ViewModel.GreetText;
+            GreetBar.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            GreetBar.Visibility = Visibility.Collapsed;
+        }
+    }
+
     private void OnUnlocked()
     {
         UpdateLockVisibility();
     }
 
-    private void Nav_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-    {
-        if (args.IsSettingsInvoked)
-        {
-            OpenSettings();
-            return;
-        }
-        var tag = (args.InvokedItemContainer as NavigationViewItem)?.Tag as string;
-        NavigateTo(tag);
-    }
+    private void SettingsButton_Click(object sender, RoutedEventArgs e) => OpenSettings();
 
-    private void Nav_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-    {
-        if (args.IsSettingsSelected)
-        {
-            OpenSettings();
-        }
-    }
-
-    private void NavigateTo(string? tag)
+    private void NavigateTo(string tag)
     {
         switch (tag)
         {
@@ -140,9 +156,9 @@ public sealed partial class MainWindow : Window
         ContentHost.Content = _reminders;
     }
 
-    private async void OpenSettings()
+    private void OpenSettings()
     {
-        var dialog = new SettingsDialog(ViewModel) { XamlRoot = Content.XamlRoot };
-        await dialog.ShowAsync();
+        var dialog = new SettingsDialog(ViewModel) { Owner = this };
+        dialog.ShowDialog();
     }
 }

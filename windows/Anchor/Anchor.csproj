@@ -2,38 +2,40 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>Anchor</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <UseWinUI>true</UseWinUI>
-    <EnableMsixTooling>false</EnableMsixTooling>
-    <WindowsPackageType>None</WindowsPackageType>
-    <!-- Fully self-contained: everything the app needs (.NET, the WindowsAppSDK/WinUI3
-         native runtime, VC++ forwarders) ships in the output folder. No external
-         installer, no version-matching against whatever the user happens to have
-         installed — framework-dependent mode's exact-version SxS matching against
-         a separately-installed runtime was too fragile in practice. -->
+    <UseWPF>true</UseWPF>
+    <!-- Plain WPF, not WinUI3/WindowsAppSDK. WPF is a much older, rock-solid part of
+         .NET itself with no MSIX packaging, no reg-free-COM WinRT activation, and no
+         Windows App Runtime dependency to version-match — none of the deployment
+         infrastructure that kept failing on real machines. -->
     <SelfContained>true</SelfContained>
-    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>Assets\anchor.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="Assets\anchor.ico" />
-    <Content Include="Assets\anchor-logo.png" />
-    <Content Include="Assets\profile-photo.jpg" />
-    <Content Include="Assets\Fonts\*.otf" />
-    <Content Include="Assets\Fonts\*.ttf" />
+    <Content Include="Assets\anchor-logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\profile-photo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\*.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\*.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.1.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
   </ItemGroup>
 
