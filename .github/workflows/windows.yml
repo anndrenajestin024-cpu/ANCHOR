@@ -23,6 +23,22 @@ jobs:
       - name: Publish (self-contained win-x64)
         run: msbuild Anchor.csproj /restore /t:Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:WindowsAppSDKSelfContained=true /p:PublishDir=publish\
 
+      - name: List published files (diagnostic)
+        shell: pwsh
+        run: Get-ChildItem -Recurse windows/Anchor/publish | Select-Object FullName, Length | Format-Table -AutoSize | Out-String -Width 300
+
+      - name: Dump embedded manifest (diagnostic)
+        shell: pwsh
+        run: |
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $exe = Get-Item windows/Anchor/publish/Anchor.exe
+          Write-Host "Anchor.exe size: $($exe.Length)"
+          $manifestFiles = Get-ChildItem windows/Anchor/publish -Filter *.manifest -Recurse
+          foreach ($m in $manifestFiles) {
+            Write-Host "---- $($m.FullName) ----"
+            Get-Content $m.FullName -Raw
+          }
+
       - name: Upload build
         uses: actions/upload-artifact@v4
         with:
