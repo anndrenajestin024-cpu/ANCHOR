@@ -25,19 +25,21 @@ jobs:
 
       - name: List published files (diagnostic)
         shell: pwsh
-        run: Get-ChildItem -Recurse windows/Anchor/publish | Select-Object FullName, Length | Format-Table -AutoSize | Out-String -Width 300
+        run: Get-ChildItem -Recurse publish | Select-Object FullName, Length | Sort-Object FullName | Format-Table -AutoSize | Out-String -Width 300
 
       - name: Dump embedded manifest (diagnostic)
         shell: pwsh
         run: |
-          Add-Type -AssemblyName System.IO.Compression.FileSystem
-          $exe = Get-Item windows/Anchor/publish/Anchor.exe
+          $exe = Get-Item publish/Anchor.exe
           Write-Host "Anchor.exe size: $($exe.Length)"
-          $manifestFiles = Get-ChildItem windows/Anchor/publish -Filter *.manifest -Recurse
+          $manifestFiles = Get-ChildItem publish -Filter *.manifest -Recurse
           foreach ($m in $manifestFiles) {
             Write-Host "---- $($m.FullName) ----"
             Get-Content $m.FullName -Raw
           }
+          $priFiles = Get-ChildItem publish -Filter *.pri -Recurse
+          Write-Host "PRI files:"
+          $priFiles | ForEach-Object { Write-Host $_.FullName }
 
       - name: Upload build
         uses: actions/upload-artifact@v4
