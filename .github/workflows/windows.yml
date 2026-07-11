@@ -20,8 +20,8 @@ jobs:
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      - name: Publish (framework-dependent win-x64)
-        run: msbuild Anchor.csproj /restore /t:Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:WindowsAppSDKSelfContained=false /p:PublishDir=publish\
+      - name: Publish (self-contained win-x64)
+        run: msbuild Anchor.csproj /restore /t:Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:WindowsAppSDKSelfContained=true /p:PublishDir=publish\
 
       - name: Upload build
         uses: actions/upload-artifact@v4

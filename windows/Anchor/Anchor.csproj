@@ -9,15 +9,13 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>false</EnableMsixTooling>
     <WindowsPackageType>None</WindowsPackageType>
-    <!-- Framework-dependent: .NET itself is still bundled (SelfContained=true) so no
-         separate .NET install is needed, but the WindowsAppSDK/WinUI3 native runtime
-         is NOT bundled (WindowsAppSDKSelfContained=false) — it resolves against the
-         Microsoft-signed "Windows App Runtime" redistributable installed on the
-         machine instead. This avoids both the unpackaged self-contained SxS
-         resolution problems and the MSIX self-signed-certificate trust problems,
-         at the cost of one extra one-time Microsoft-signed installer for the user. -->
+    <!-- Fully self-contained: everything the app needs (.NET, the WindowsAppSDK/WinUI3
+         native runtime, VC++ forwarders) ships in the output folder. No external
+         installer, no version-matching against whatever the user happens to have
+         installed — framework-dependent mode's exact-version SxS matching against
+         a separately-installed runtime was too fragile in practice. -->
     <SelfContained>true</SelfContained>
-    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
