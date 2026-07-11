@@ -17,16 +17,16 @@ object AnchorColors {
     val PrimaryDark = Color(0xFF303136)
     val Cream = Color(0xFFFAF9F5)
     val Surface = Color(0xFFFFFFFF)
-    val Outline = Color(0xFFDDD3C8)
-    val OutlineFaint = Color(0xFFEDE6DC)
-    val TextMuted = Color(0xFF8A7A6E)
+    val Outline = Color(0xFFD2D3D8)
+    val OutlineFaint = Color(0xFFE4E5E9)
+    val TextMuted = Color(0xFFA6A7AC)
     val TextWarm = Color(0xFF3D2B21)
     val TextWarmMuted = Color(0xFF523C2C)
     val Success = Color(0xFF8FAC78)
     val SuccessDark = Color(0xFF5E7A4C)
     val Warn = Color(0xFFD0A050)
     val Danger = Color(0xFFB85C48)
-    val ChipBg = Color(0xFFF3EEE6)
+    val ChipBg = Color(0xFFF5F5F7)
 
     val categoryPalette = listOf(
         Color(0xFF5B7B9A), Color(0xFF8FAC78), Color(0xFFC99B5D), Color(0xFFA56A5F), Color(0xFF77787D),
@@ -40,7 +40,7 @@ private val LightColors = lightColorScheme(
     onPrimaryContainer = Color.White,
     secondary = AnchorColors.Primary,
     onSecondary = Color.White,
-    secondaryContainer = Color(0xFFEDE3D6),
+    secondaryContainer = Color(0xFFE7E7EA),
     onSecondaryContainer = AnchorColors.Primary,
     tertiary = AnchorColors.SuccessDark,
     tertiaryContainer = Color(0xFFDCE8D3),
