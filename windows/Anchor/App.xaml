@@ -36,15 +36,22 @@
                  TextBlock style, so it has to be overridden too for the lock to be complete. -->
             <FontFamily x:Key="ContentControlThemeFontFamily">ms-appx:///Assets/Fonts/AvianoGothic.ttf#Aviano Gothic  3</FontFamily>
 
+            <!-- IsTextScaleFactorEnabled defaults to true, meaning Windows' "Make text
+                 bigger" Ease of Access setting resizes every TextBlock automatically.
+                 Disable it so font size is controlled purely by the FontSize values
+                 set in code/XAML, not the system. -->
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="{StaticResource AvianoGothicFont}" />
+                <Setter Property="IsTextScaleFactorEnabled" Value="False" />
             </Style>
             <Style x:Key="AnchorHeadingTextStyle" TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="{StaticResource AvianoSerifFont}" />
+                <Setter Property="IsTextScaleFactorEnabled" Value="False" />
             </Style>
             <Style x:Key="AnchorWordmarkTextStyle" TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="{StaticResource GordenFont}" />
                 <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="IsTextScaleFactorEnabled" Value="False" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>
