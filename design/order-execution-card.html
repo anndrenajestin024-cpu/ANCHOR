@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order Execution &amp; Delivery — Anchor</title>
+<style>
+/* ============================================================
+   Anchor — Order Execution & Delivery KPI card
+   Structure: neatly organised. Five stacked compartments with
+   a consistent 20px rhythm and hairline separators — header,
+   primary KPI, trend, supporting metrics, footer. Nothing
+   overlaps; every element sits on a shared grid.
+   Identity: charcoal + cream ground, one muted sage accent,
+   engraved serif display type (from the native app theme).
+   ============================================================ */
+
+:root {
+  --ground:       #F4F2EC;
+  --surface:      #FFFFFF;
+  --surface-sunk: #FAF9F5;
+  --ink:          #1C1D21;
+  --ink-soft:     #3A3B3F;
+  --ink-muted:    #86868C;
+  --hair:         #EAE9E4;
+  --hair-strong:  #D6D5CF;
+
+  --good:         #5E7A4C;
+  --good-fill:    #8FAC78;
+  --warn:         #B07E33;
+  --danger:       #B85C48;
+
+  --good-wash:    rgba(143, 172, 120, 0.14);
+  --pad:          22px;
+  --shadow:       0 1px 2px rgba(19, 20, 23, .04), 0 14px 34px -14px rgba(19, 20, 23, .18);
+
+  --serif: "Hoefler Text", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans:  ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground:#131417; --surface:#1B1C20; --surface-sunk:#17181B;
+    --ink:#ECEBE6; --ink-soft:#C6C6C2; --ink-muted:#87888D;
+    --hair:#2A2B30; --hair-strong:#35363C;
+    --good:#A7C089; --good-fill:#8FAC78; --warn:#D9AC63; --danger:#D07B67;
+    --good-wash:rgba(143,172,120,.16);
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 20px 44px -16px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="light"] {
+  --ground:#F4F2EC; --surface:#FFFFFF; --surface-sunk:#FAF9F5;
+  --ink:#1C1D21; --ink-soft:#3A3B3F; --ink-muted:#86868C;
+  --hair:#EAE9E4; --hair-strong:#D6D5CF;
+  --good:#5E7A4C; --good-fill:#8FAC78; --warn:#B07E33; --danger:#B85C48;
+  --good-wash:rgba(143,172,120,.14);
+  --shadow:0 1px 2px rgba(19,20,23,.04), 0 14px 34px -14px rgba(19,20,23,.18);
+}
+:root[data-theme="dark"] {
+  --ground:#131417; --surface:#1B1C20; --surface-sunk:#17181B;
+  --ink:#ECEBE6; --ink-soft:#C6C6C2; --ink-muted:#87888D;
+  --hair:#2A2B30; --hair-strong:#35363C;
+  --good:#A7C089; --good-fill:#8FAC78; --warn:#D9AC63; --danger:#D07B67;
+  --good-wash:rgba(143,172,120,.16);
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 20px 44px -16px rgba(0,0,0,.6);
+}
+
+* { box-sizing: border-box; }
+
+.stage {
+  min-height: 100%;
+  background:
+    radial-gradient(120% 85% at 50% -8%, color-mix(in srgb, var(--good-fill) 8%, var(--ground)) 0%, var(--ground) 56%);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  display: flex; align-items: center; justify-content: center;
+  padding: 48px 20px;
+}
+
+.card {
+  width: 100%; max-width: 396px;
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* every compartment shares the same horizontal padding + a hairline seam */
+.row { padding-left: var(--pad); padding-right: var(--pad); }
+.seam { border-top: 1px solid var(--hair); }
+
+/* ---------- 1 · header ---------- */
+.header {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding-top: 18px; padding-bottom: 18px;
+}
+.eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.status {
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;
+  font-size: 11px; font-weight: 600; letter-spacing: .02em; color: var(--good);
+  background: var(--good-wash);
+  border: 1px solid color-mix(in srgb, var(--good) 26%, transparent);
+  padding: 4px 10px 4px 8px; border-radius: 999px;
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--good-fill);
+  animation: pulse 2.6s ease-out infinite; }
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--good-fill) 55%, transparent); }
+  70%  { box-shadow: 0 0 0 6px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+
+/* ---------- 2 · primary KPI ---------- */
+.kpi {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+  padding-top: 20px; padding-bottom: 20px;
+}
+.kpi .lead .k {
+  font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 8px;
+}
+.kpi .num {
+  font-family: var(--serif); font-weight: 600; letter-spacing: -.015em; line-height: .84;
+  font-variant-numeric: tabular-nums; color: var(--ink); font-size: 62px;
+}
+.kpi .num .pct { font-size: 30px; color: var(--ink-soft); margin-left: 2px; }
+.kpi .num .sub { display:block; font-family: var(--sans); font-size: 11.5px; font-weight: 600;
+  letter-spacing: 0; color: var(--ink-soft); margin-top: 10px; }
+
+.kpi .meta { text-align: right; padding-bottom: 4px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: var(--good);
+  background: var(--good-wash); border-radius: 8px; padding: 5px 9px;
+}
+.chip svg { width: 11px; height: 11px; }
+.target {
+  margin-top: 10px; font-size: 11px; color: var(--ink-muted); line-height: 1.5;
+}
+.target b { color: var(--good); font-weight: 700; }
+.target .tick { display:inline-block; margin-left: 3px; color: var(--good); }
+
+/* ---------- 3 · trend (self-contained) ---------- */
+.trend { padding-top: 16px; padding-bottom: 16px; }
+.trend .caption {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 10px;
+}
+.trend .caption .tgt { color: var(--warn); }
+.chartwrap { position: relative; }
+.chart { display: block; width: 100%; height: 60px; overflow: visible; }
+.chart .target-line { stroke: var(--warn); stroke-width: 1; stroke-dasharray: 3 4; opacity: .8; }
+.chart .area { fill: url(#otdFill); }
+.chart .line { fill: none; stroke: var(--good); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .end { fill: var(--surface); stroke: var(--good); stroke-width: 2.5; }
+.chart .cross { stroke: var(--ink-muted); stroke-width: 1; opacity: 0; }
+.chart .focus { fill: var(--good); opacity: 0; }
+.chart .hit { fill: transparent; cursor: crosshair; }
+.axis {
+  display: flex; justify-content: space-between; margin-top: 8px;
+  font-size: 9.5px; letter-spacing: .05em; color: var(--ink-muted); text-transform: uppercase;
+}
+.tip {
+  position: absolute; top: -6px; transform: translate(-50%, -100%);
+  background: var(--ink); color: var(--surface);
+  font-size: 10.5px; font-weight: 600; font-variant-numeric: tabular-nums;
+  padding: 3px 7px; border-radius: 6px; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity .12s ease;
+  box-shadow: 0 6px 16px -6px rgba(0,0,0,.4);
+}
+.tip .q { color: color-mix(in srgb, var(--surface) 58%, var(--ink)); font-weight: 500; margin-left: 5px; }
+
+/* ---------- 4 · supporting metrics ---------- */
+.metrics { display: grid; grid-template-columns: 1fr 1fr; }
+.metric { padding: 16px var(--pad); }
+.metric + .metric { border-left: 1px solid var(--hair); }
+.metric .k {
+  font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 8px;
+}
+.metric .v {
+  font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: -.005em;
+  color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1;
+}
+.metric .v .u { font-size: 12.5px; color: var(--ink-soft); font-family: var(--sans);
+  font-weight: 600; margin-left: 3px; letter-spacing: 0; }
+.metric .t { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px;
+  font-size: 11px; font-weight: 600; }
+.metric .t.warn { color: var(--warn); }
+.metric .t.good { color: var(--good); }
+.metric .t .why { color: var(--ink-muted); font-weight: 500; }
+.metric .t svg { width: 11px; height: 11px; }
+
+/* ---------- 5 · footer ---------- */
+.footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 11px; padding-bottom: 12px;
+  font-size: 10.5px; color: var(--ink-muted); background: var(--surface-sunk);
+}
+.footer .src { display: inline-flex; align-items: center; gap: 6px; letter-spacing: .03em; }
+.footer .src svg { width: 12px; height: 12px; opacity: .7; }
+.footer a { color: var(--ink-soft); text-decoration: none; font-weight: 700; letter-spacing: .02em; }
+.footer a:hover { color: var(--good); }
+.footer a:focus-visible { outline: 2px solid var(--good); outline-offset: 2px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="card" role="group" aria-label="Order Execution and Delivery. On-time delivery 96 percent, on track, above the 95 percent target.">
+
+    <!-- 1 · header -->
+    <div class="row header">
+      <span class="eyebrow">Order Execution &amp; Delivery</span>
+      <span class="status" title="Above the 95% target">
+        <span class="dot" aria-hidden="true"></span>On track
+      </span>
+    </div>
+
+    <!-- 2 · primary KPI -->
+    <div class="row kpi seam">
+      <div class="lead">
+        <div class="k">On-Time Delivery</div>
+        <div class="num">96<span class="pct">%</span>
+          <span class="sub">of orders delivered on time</span>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="chip">
+          <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 10V2M6 2 2.5 5.5M6 2l3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          2 pts
+        </span>
+        <div class="target">vs last quarter<br>target <b>95%</b><span class="tick">✓ met</span></div>
+      </div>
+    </div>
+
+    <!-- 3 · trend -->
+    <div class="row trend seam">
+      <div class="caption"><span>8-Quarter Trend</span><span class="tgt">— — target 95%</span></div>
+      <div class="chartwrap">
+        <svg class="chart" viewBox="0 0 348 60" preserveAspectRatio="none" role="img"
+             aria-label="On-time delivery by quarter, rising from 89% to 96% and crossing the 95% target in the latest quarter.">
+          <defs>
+            <linearGradient id="otdFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="var(--good-fill)" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="var(--good-fill)" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line class="target-line" id="targetLine"></line>
+          <path class="area" id="area"></path>
+          <path class="line" id="line"></path>
+          <line class="cross" id="cross"></line>
+          <circle class="focus" id="focus" r="3.5"></circle>
+          <circle class="end" id="end" r="3.5"></circle>
+          <rect class="hit" id="hit" x="0" y="0" width="348" height="60"></rect>
+        </svg>
+        <div class="tip" id="tip"></div>
+      </div>
+      <div class="axis"><span>Q3 ’24</span><span>Q2 ’26</span></div>
+    </div>
+
+    <!-- 4 · supporting metrics -->
+    <div class="metrics seam">
+      <div class="metric">
+        <div class="k">Avg Lead Time</div>
+        <div class="v">+1.5<span class="u">days</span></div>
+        <div class="t warn">
+          <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 2v8M6 10 2.5 6.5M6 10l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          slower <span class="why">vs&nbsp;plan</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="k">Open Backlog</div>
+        <div class="v">45<span class="u">M&nbsp;AED</span></div>
+        <div class="t good">
+          <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 2v8M6 10 2.5 6.5M6 10l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          6% <span class="why">this&nbsp;quarter</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 · footer -->
+    <div class="row footer seam">
+      <span class="src">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5 2 4v4c0 3.2 2.4 5.4 6 6.5 3.6-1.1 6-3.3 6-6.5V4L8 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        Anchor · updated today
+      </span>
+      <a href="#" aria-label="View delivery detail">Detail →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var data = [89, 91, 90, 92, 93, 94, 94, 96];
+  var quarters = ["Q3 ’24","Q4 ’24","Q1 ’25","Q2 ’25","Q3 ’25","Q4 ’25","Q1 ’26","Q2 ’26"];
+  var TARGET = 95;
+
+  var W = 348, H = 60, padX = 5, padTop = 9, padBot = 7;
+  var lo = 86, hi = 98, n = data.length;
+
+  var x = function (i) { return padX + (W - padX * 2) * (i / (n - 1)); };
+  var y = function (v) { return padTop + (H - padTop - padBot) * (1 - (v - lo) / (hi - lo)); };
+
+  var d = "", i;
+  for (i = 0; i < n; i++) d += (i ? "L" : "M") + x(i).toFixed(1) + " " + y(data[i]).toFixed(1) + " ";
+  document.getElementById("line").setAttribute("d", d.trim());
+  document.getElementById("area").setAttribute("d",
+    d.trim() + "L" + x(n - 1).toFixed(1) + " " + (H - padBot) + " L" + x(0).toFixed(1) + " " + (H - padBot) + " Z");
+
+  var tl = document.getElementById("targetLine");
+  tl.setAttribute("x1", padX); tl.setAttribute("x2", W - padX);
+  tl.setAttribute("y1", y(TARGET)); tl.setAttribute("y2", y(TARGET));
+
+  var end = document.getElementById("end");
+  end.setAttribute("cx", x(n - 1)); end.setAttribute("cy", y(data[n - 1]));
+
+  var svg = document.querySelector(".chart");
+  var hit = document.getElementById("hit");
+  var cross = document.getElementById("cross");
+  var focus = document.getElementById("focus");
+  var tip = document.getElementById("tip");
+
+  function nearest(clientX) {
+    var r = svg.getBoundingClientRect();
+    var px = (clientX - r.left) / r.width * W;
+    return Math.max(0, Math.min(n - 1, Math.round((px - padX) / (W - padX * 2) * (n - 1))));
+  }
+  function show(idx) {
+    var cx = x(idx), cy = y(data[idx]);
+    cross.setAttribute("x1", cx); cross.setAttribute("x2", cx);
+    cross.setAttribute("y1", padTop - 4); cross.setAttribute("y2", H - padBot);
+    cross.style.opacity = .45;
+    focus.setAttribute("cx", cx); focus.setAttribute("cy", cy); focus.style.opacity = 1;
+    tip.innerHTML = data[idx] + "%<span class='q'>" + quarters[idx] + "</span>";
+    tip.style.opacity = 1; tip.style.left = (cx / W * 100) + "%";
+  }
+  function hide() { cross.style.opacity = 0; focus.style.opacity = 0; tip.style.opacity = 0; }
+
+  hit.addEventListener("mousemove", function (e) { show(nearest(e.clientX)); });
+  hit.addEventListener("mouseleave", hide);
+  hit.addEventListener("touchstart", function (e) { show(nearest(e.touches[0].clientX)); }, { passive: true });
+  hit.addEventListener("touchmove",  function (e) { show(nearest(e.touches[0].clientX)); }, { passive: true });
+  hit.addEventListener("touchend", hide);
+})();
+</script>
+</body>
+</html>
