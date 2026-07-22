@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mamamind – Viviette workspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --color-bg:#050609;
+      --color-surface:#0b0c10;
+      --color-surface-2:#11131a;
+      --color-surface-offset:#171924;
+      --color-border:#2a2d3b;
+      --color-divider:#202331;
+      --color-primary:#4f98a3;
+      --color-gold:#e8af34;
+      --color-success:#6daa45;
+      --color-error:#dd6974;
+      --color-text:#f5f5f7;
+      --color-text-muted:#8b8fa3;
+      --radius-lg:18px;
+      --radius-md:10px;
+      --space-2:0.5rem;
+      --space-3:0.75rem;
+      --space-4:1rem;
+      --space-5:1.5rem;
+      --space-6:2rem;
+      --font-body:'Satoshi','Montserrat',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    }
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;height:100%;background:radial-gradient(circle at top,#10121b,#050609);color:var(--color-text);font-family:var(--font-body);}
+    body{display:flex;align-items:stretch;justify-content:center;}
+    .app-shell{display:grid;place-items:stretch;min-height:100vh;width:100%;}
+    .app{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1280px;margin:0 auto;min-height:100vh;}
+    .sidebar{padding:var(--space-5);border-right:1px solid var(--color-border);background:linear-gradient(180deg,#07080d,#050609);}
+    .brand{display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-5);}
+    .brand-mark{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--color-border);font-weight:600;}
+    .brand-text strong{display:block;font-size:0.95rem;}
+    .brand-text .small-note{font-size:0.75rem;color:var(--color-text-muted);}
+    .nav{display:grid;gap:0.3rem;}
+    .nav button{all:unset;display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0.9rem;border-radius:999px;color:var(--color-text-muted);cursor:pointer;font-size:0.86rem;}
+    .nav button span:first-child{width:22px;display:grid;place-items:center;}
+    .nav button.active{background:var(--color-surface-2);color:var(--color-text);}
+    .nav button:hover{background:rgba(255,255,255,0.04);}
+    .sidebar .meta{margin-top:var(--space-5);font-size:0.75rem;color:var(--color-text-muted);}
+    .main{padding:var(--space-5);display:flex;flex-direction:column;gap:var(--space-4);}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);}
+    .topbar h1{margin:0;font-size:1rem;font-weight:600;}
+    .topbar p{margin:0;font-size:0.8rem;color:var(--color-text-muted);}
+    .btn{border-radius:999px;border:none;cursor:pointer;font-size:0.8rem;font-weight:500;padding:0.4rem 0.9rem;}
+    .btn-soft{background:var(--color-surface-2);color:var(--color-text);}
+    .btn-primary{background:var(--color-primary);color:#050609;}
+    .view{display:none;}
+    .view.active{display:block;}
+    .panel{background:var(--color-surface);border-radius:var(--radius-lg);border:1px solid var(--color-border);padding:var(--space-5);}
+    .panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--space-4);margin-bottom:var(--space-4);}
+    .panel-head h3{margin:0;font-size:0.95rem;}
+    .panel-head .sub{margin:0;font-size:0.8rem;color:var(--color-text-muted);}
+    .hero-grid{display:grid;gap:var(--space-4);}
+    .filters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--space-4);}
+    .field{display:grid;gap:0.3rem;font-size:0.8rem;}
+    .field label{color:var(--color-text-muted);}
+    .field input,.field select,.field textarea{background:var(--color-surface-2);border-radius:var(--radius-md);border:1px solid var(--color-border);color:var(--color-text);padding:0.55rem 0.7rem;font-size:0.8rem;}
+    .field textarea{min-height:80px;resize:vertical;}
+    .filter-panel{margin-top:var(--space-4);}
+    .radial-wrap{position:relative;display:grid;place-items:center;min-height:260px;border-radius:24px;background:radial-gradient(circle at 30% 20%,rgba(79,152,163,0.16),transparent 30%),linear-gradient(180deg,var(--color-surface-2),var(--color-surface));border:1px solid rgba(42,45,59,0.8);}
+    .radial-wrap svg{width:min(100%,320px);height:auto;overflow:visible;}
+    .radial-center{position:absolute;display:grid;gap:0.3rem;text-align:center;}
+    .radial-center strong{font-size:2.3rem;line-height:1;}
+    .radial-center span{font-size:0.78rem;color:var(--color-text-muted);}
+    .pulse-board{display:grid;grid-template-columns:1.1fr 0.9fr;gap:var(--space-4);align-items:center;}
+    .mini-insights{display:grid;gap:var(--space-3);}
+    .insight-pill{padding:var(--space-4);border-radius:20px;background:var(--color-surface-2);border:1px solid rgba(42,45,59,0.8);}
+    .insight-pill .eyebrow{font-size:0.78rem;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.08em;}
+    .insight-pill strong{display:block;font-size:1rem;margin-top:0.2rem;}
+    .backup-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:var(--space-4);margin-top:var(--space-4);}
+    .journey-track{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--space-3);align-items:end;}
+    .journey-step{display:grid;gap:var(--space-2);justify-items:center;}
+    .journey-node{width:100%;min-height:80px;border-radius:22px;display:grid;place-items:center;padding:var(--space-3);background:linear-gradient(180deg,rgba(79,152,163,0.2),var(--color-surface-2));border:1px solid rgba(79,152,163,0.45);}
+    .journey-node strong{font-size:1rem;}
+    .journey-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);}
+    .constellation{display:grid;gap:var(--space-4);}
+    .constellation-row{display:grid;grid-template-columns:160px 1fr auto;gap:var(--space-3);align-items:center;font-size:0.8rem;}
+    .constellation-line{position:relative;height:16px;border-radius:999px;background:linear-gradient(90deg,rgba(79,152,163,0.16),rgba(79,152,163,0.06));}
+    .constellation-line span{position:absolute;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--color-primary);box-shadow:0 0 0 6px rgba(79,152,163,0.18);}
+    .constellation-line i{position:absolute;top:50%;left:0;right:0;height:2px;transform:translateY(-50%);background:linear-gradient(90deg,var(--color-primary),rgba(79,152,163,0.28));}
+    .signal-list{display:grid;gap:var(--space-3);margin-top:var(--space-4);}
+    .signal-item{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:var(--space-3);padding:var(--space-3) 0;border-bottom:1px solid var(--color-divider);font-size:0.82rem;}
+    .signal-dot{width:12px;height:12px;border-radius:50%;background:var(--color-primary);box-shadow:0 0 0 6px rgba(79,152,163,0.18);}
+    .signal-item strong{display:block;margin-bottom:0.15rem;}
+    .signal-item .small-note{font-size:0.78rem;color:var(--color-text-muted);}
+    .small-note{font-size:0.78rem;color:var(--color-text-muted);}
+    table{width:100%;border-collapse:collapse;font-size:0.78rem;}
+    th,td{padding:0.55rem 0.4rem;border-bottom:1px solid var(--color-divider);text-align:left;}
+    th{color:var(--color-text-muted);font-weight:500;font-size:0.75rem;}
+    .records-tools{display:flex;gap:var(--space-3);margin-bottom:var(--space-3);flex-wrap:wrap;}
+    .records-wrap{overflow:auto;max-height:360px;}
+    .badge{display:inline-block;border-radius:999px;padding:0.05rem 0.5rem;font-size:0.7rem;border:1px solid rgba(255,255,255,0.08);}
+    .badge.warning{border-color:var(--color-error);color:var(--color-error);}
+    .empty{padding:var(--space-4);font-size:0.8rem;color:var(--color-text-muted);}
+    .list{display:grid;gap:var(--space-3);}
+    .list-item{display:flex;justify-content:space-between;gap:var(--space-4);align-items:flex-start;font-size:0.8rem;}
+    .list-item strong{display:block;margin-bottom:0.1rem;}
+    .form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4);}
+    .span-2{grid-column:span 2;}
+    .presentation-shell{display:grid;grid-template-columns:260px minmax(0,1fr);gap:var(--space-4);}
+    .toggle{display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;}
+    .switch{width:40px;height:22px;border-radius:999px;background:var(--color-surface-2);border:1px solid var(--color-border);position:relative;cursor:pointer;}
+    .switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--color-text);transition:transform 0.2s;}
+    .switch.on{background:var(--color-primary);border-color:var(--color-primary);}
+    .switch.on::after{transform:translateX(16px);}
+    .kpi-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4);margin-top:var(--space-4);}
+    .stat .eyebrow{font-size:0.75rem;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.08em;}
+    .stat strong{display:block;font-size:1rem;margin-top:0.15rem;}
+    .settings-grid,.backup-grid-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);}
+    @media (max-width:1080px){
+      .app{grid-template-columns:84px 1fr;}
+      .sidebar .label,.sidebar .meta,.brand-text{display:none;}
+      .hero-grid,.pulse-board,.presentation-shell{grid-template-columns:1fr;}
+      .filters{grid-template-columns:repeat(3,minmax(0,1fr));}
+      .backup-grid,.settings-grid,.backup-grid-details,.kpi-row{grid-template-columns:1fr;}
+    }
+    @media (max-width:760px){
+      .app{display:block;height:auto;}
+      .sidebar{position:sticky;top:0;z-index:15;padding:var(--space-4);display:flex;justify-content:space-between;align-items:center;}
+      .main{padding:var(--space-4);}
+      .filters{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .pulse-board,.backup-grid,.presentation-shell,.settings-grid,.backup-grid-details,.kpi-row{grid-template-columns:1fr;}
+      .journey-track{grid-template-columns:repeat(5,minmax(0,1fr));}
+      .constellation-row{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+<div class="app-shell" id="appShell">
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div class="brand-text">
+          <strong>Mamamind</strong>
+          <div class="small-note">Viviette Rozario workspace</div>
+        </div>
+      </div>
+      <nav class="nav" id="nav">
+        <button class="active" data-view-target="dashboard"><span>◉</span><span class="label">Home</span></button>
+        <button data-view-target="spreadsheet"><span>▦</span><span class="label">Spreadsheet</span></button>
+        <button data-view-target="teams"><span>◫</span><span class="label">Teams</span></button>
+        <button data-view-target="presentation"><span>▣</span><span class="label">Presentation</span></button>
+        <button data-view-target="details"><span>⋯</span><span class="label">Small Details</span></button>
+      </nav>
+      <div class="meta">
+        <div>One-shot view for RFQs, POs, and follow-up instead of heavy reports.</div>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 id="page-title">Home</h1>
+          <p id="page-subtitle">Visual-first analysis with quick drill-down</p>
+        </div>
+        <div>
+          <button class="btn btn-soft" id="themeToggle">Theme</button>
+        </div>
+      </header>
+
+      <!-- Home -->
+      <section class="view active" id="view-dashboard">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Filter overview</h3>
+              <p class="sub">Filters affect Home, Spreadsheet, Teams, and Presentation.</p>
+            </div>
+          </div>
+          <div class="filter-panel">
+            <div class="filters">
+              <div class="field"><label for="monthFilter">Month</label><select id="monthFilter"></select></div>
+              <div class="field"><label for="yearFilter">Year</label><select id="yearFilter"></select></div>
+              <div class="field"><label for="clientFilter">Client</label><select id="clientFilter"></select></div>
+              <div class="field"><label for="statusFilter">Stage</label><select id="statusFilter"></select></div>
+              <div class="field"><label for="scopeFilter">View mode</label>
+                <select id="scopeFilter">
+                  <option value="month">Month wise</option>
+                  <option value="total">Total visuals</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel hero-grid">
+          <div class="panel-head">
+            <div>
+              <h3>One-shot understanding</h3>
+              <p class="sub">Visual pulse of active work, pending updates, and total value.</p>
+            </div>
+            <div class="small-note" id="lastUpdated">Updated just now</div>
+          </div>
+          <div class="pulse-board">
+            <div class="radial-wrap">
+              <svg id="radialSvg" viewBox="0 0 300 300" aria-label="Performance pulse visual"></svg>
+              <div class="radial-center">
+                <strong id="pulseValue">0%</strong>
+                <span id="pulseLabel">0 active · 0 pending</span>
+              </div>
+            </div>
+            <div class="mini-insights" id="miniInsights"></div>
+          </div>
+        </div>
+
+        <div class="backup-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Flow journey</h3>
+                <p class="sub">RFQ to completion as a connected path.</p>
+              </div>
+            </div>
+            <div class="journey-track" id="journeyTrack"></div>
+          </div>
+          <div class="panel constellation">
+            <div class="panel-head">
+              <div>
+                <h3>Client constellation</h3>
+                <p class="sub">Each client positioned by share of total value.</p>
+              </div>
+            </div>
+            <div id="clientConstellation"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Quick understanding</h3>
+              <p class="sub">Short signals instead of long reports.</p>
+            </div>
+          </div>
+          <div id="recentList" class="signal-list"></div>
+        </div>
+      </section>
+
+      <!-- Spreadsheet -->
+      <section class="view" id="view-spreadsheet">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Spreadsheet workspace</h3>
+              <p class="sub">Team Details + RFQ Details in one place.</p>
+            </div>
+          </div>
+          <div class="backup-grid">
+            <div class="panel">
+              <div><h3>Team Details</h3><p class="sub">Owner, team, sent, updates, follow-up.</p></div>
+              <div class="list">
+                <div class="list-item">
+                  <div>
+                    <strong>Fields included</strong>
+                    <div class="small-note">team, owner, sentDate, lastUpdateDate, updateReceived, pending</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div><h3>RFQ Details</h3><p class="sub">RFQ to PO and completion dates.</p></div>
+              <div class="list">
+                <div class="list-item">
+                  <div>
+                    <strong>Fields included</strong>
+                    <div class="small-note">client, RFQ, quotation, PO, job start, job end, value, expiry, notes</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div><h3>All records</h3><p class="sub">Search, review, and edit any row.</p></div>
+          </div>
+          <div class="records-tools">
+            <input id="searchInput" class="field input" placeholder="Search client, ID, notes" />
+            <button class="btn btn-soft" id="showOverdueBtn">Show overdue only</button>
+            <button class="btn btn-soft" id="clearSearchBtn">Clear</button>
+          </div>
+          <div class="records-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Client</th><th>Team</th><th>Owner</th><th>RFQ</th><th>Quote</th><th>PO</th>
+                  <th>Status</th><th>Sent</th><th>Updated</th><th>Value</th><th>Notes</th><th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="recordsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div><h3>Import</h3><p class="sub">Upload CSV in the approved format.</p></div>
+          </div>
+          <div class="list">
+            <p class="small-note">
+              Template headers:
+              id, client, team, owner, rfqDate, quoteDate, poDate, jobInitDate, jobCompletedDate,
+              status, sentDate, lastUpdateDate, updateReceived, value, expiryDate, notes
+            </p>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+              <input id="csvFile" type="file" accept=".csv" />
+              <button class="btn btn-primary" id="importBtn">Import CSV</button>
+              <button class="btn btn-soft" id="downloadTemplateBtn">Download CSV template</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div><h3>Add or edit record</h3><p class="sub">Manual entry stays in the same spreadsheet.</p></div>
+          </div>
+          <form id="recordForm" class="form-grid">
+            <div class="field"><label for="recordId">Record ID</label><input id="recordId" placeholder="Auto if blank" /></div>
+            <div class="field"><label for="clientName">Client name</label><input id="clientName" required /></div>
+            <div class="field"><label for="rfqDate">RFQ received date</label><input id="rfqDate" type="date" /></div>
+            <div class="field"><label for="quoteDate">Quotation sent date</label><input id="quoteDate" type="date" /></div>
+            <div class="field"><label for="poDate">PO received date</label><input id="poDate" type="date" /></div>
+            <div class="field"><label for="jobInitDate">Job initiated date</label><input id="jobInitDate" type="date" /></div>
+            <div class="field"><label for="jobCompletedDate">Job completed date</label><input id="jobCompletedDate" type="date" /></div>
+            <div class="field">
+              <label for="recordStatus">Status</label>
+              <select id="recordStatus">
+                <option>RFQ Received</option><option>Quotation Sent</option><option>PO Received</option>
+                <option>Job Initiated</option><option>Job Completed</option><option>Pending Update</option>
+                <option>Not Sent</option><option>Expired</option>
+              </select>
+            </div>
+            <div class="field"><label for="recordTeam">Team</label>
+              <select id="recordTeam">
+                <option>Sales</option><option>Operations</option><option>Production</option><option>Support</option>
+              </select>
+            </div>
+            <div class="field"><label for="recordOwner">Owner</label>
+              <select id="recordOwner">
+                <option>Jijomon George</option><option>Bavin K</option><option>Naveen Jayasurya</option><option>Binu P</option>
+              </select>
+            </div>
+            <div class="field"><label for="recordValue">Value</label><input id="recordValue" type="number" min="0" step="0.01" /></div>
+            <div class="field"><label for="sentDate">Sent date</label><input id="sentDate" type="date" /></div>
+            <div class="field"><label for="lastUpdateDate">Last update date</label><input id="lastUpdateDate" type="date" /></div>
+            <div class="field"><label for="updateReceived">Update received</label>
+              <select id="updateReceived"><option>Yes</option><option>No</option></select>
+            </div>
+            <div class="field"><label for="expiryDate">Expiry date</label><input id="expiryDate" type="date" /></div>
+            <div class="field span-2"><label for="recordNotes">Notes</label><textarea id="recordNotes"></textarea></div>
+            <div class="span-2" style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+              <button class="btn btn-primary" type="submit">Save record</button>
+              <button class="btn btn-soft" type="button" id="resetFormBtn">Reset form</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h3>Import log</h3><p class="sub">Review accepted rows and any issues.</p></div></div>
+          <div id="importLog" class="list"><div class="empty">No import yet.</div></div>
+        </div>
+      </section>
+
+      <!-- Teams -->
+      <section class="view" id="view-teams">
+        <div class="panel">
+          <div class="panel-head">
+            <div><h3>Team tracking</h3><p class="sub">Who owns what, and what needs follow-up.</p></div>
+          </div>
+          <div class="backup-grid">
+            <div id="teamStats" class="mini-insights"></div>
+            <div class="panel">
+              <div class="panel-head"><div><h3>Follow-up tracker</h3><p class="sub">Pending updates, not sent, and no response.</p></div></div>
+              <div id="followupList" class="list"></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>Member breakdown</h3><p class="sub">Ownership and status for each person.</p></div></div>
+          <div id="teamList" class="list"></div>
+        </div>
+      </section>
+
+      <!-- Presentation -->
+      <section class="view" id="view-presentation">
+        <div class="presentation-shell">
+          <div class="panel">
+            <div class="panel-head"><div><h3>Controls</h3><p class="sub">Choose what to show in presentation mode.</p></div></div>
+            <div class="list">
+              <label class="toggle"><span>Show trend</span><button class="switch on" data-toggle="trend"></button></label>
+              <label class="toggle"><span>Show journey</span><button class="switch on" data-toggle="funnel"></button></label>
+              <label class="toggle"><span>Show KPIs</span><button class="switch on" data-toggle="kpi"></button></label>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Presentation canvas</h3><p class="sub">Visuals stay inside the app, no export.</p></div></div>
+            <div class="kpi-row" id="presentationKpis"></div>
+            <div class="backup-grid">
+              <div class="panel">
+                <div class="panel-head"><div><h3>Monthly momentum</h3><p class="sub">Sparkline-style columns for months.</p></div></div>
+                <div id="presentationMonthlySpark"></div>
+              </div>
+              <div class="panel">
+                <div class="panel-head"><div><h3>Stage story</h3><p class="sub">Same journey visual reused here.</p></div></div>
+                <div class="journey-track" id="presentationFunnelInner"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Small Details -->
+      <section class="view" id="view-details">
+        <div class="settings-grid">
+          <div class="panel">
+            <div class="panel-head"><div><h3>Appearance</h3><p class="sub">Theme and body font.</p></div></div>
+            <div class="field"><label for="themeSelect">Theme</label>
+              <select id="themeSelect"><option value="dark">Dark</option><option value="light">Light</option></select>
+            </div>
+            <div class="field"><label for="fontSelect">Body font</label>
+              <select id="fontSelect">
+                <option value="satoshi">Satoshi / Montserrat style</option>
+                <option value="system">System UI</option>
+              </select>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Utilities</h3><p class="sub">Backups, restore, and behavior settings.</p></div></div>
+            <button class="btn btn-primary" id="makeBackupBtn">Create backup snapshot</button>
+            <button class="btn btn-soft" id="exportCsvBtn">Export current CSV</button>
+            <button class="btn btn-soft" id="gmailCopyBtn">Copy Gmail backup text</button>
+            <button class="btn btn-soft" id="downloadBtn">Download backup JSON</button>
+            <div class="field"><label for="defaultMonth">Default month</label><select id="defaultMonth"></select></div>
+            <div class="field"><label for="idPrefix">ID prefix</label><input id="idPrefix" value="SO" /></div>
+            <div class="field"><label for="expiryWindow">Expiry warning days</label><input id="expiryWindow" type="number" min="1" value="14" /></div>
+          </div>
+        </div>
+
+        <div class="backup-grid-details" style="margin-top:var(--space-4);">
+          <div class="panel">
+            <div class="panel-head"><div><h3>Restore</h3><p class="sub">Deleted items kept for 30 days.</p></div></div>
+            <div id="restoreList" class="list"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Backup history</h3><p class="sub">Snapshots made in this session.</p></div></div>
+            <div id="backupHistory" class="list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+  const state = {
+    filters:{month:'all',year:'all',client:'all',status:'all',scope:'month'},
+    presentation:{trend:true,funnel:true,kpi:true},
+    backups:[],
+    deleted:[],
+    records:[
+      {id:'SO-2401',client:'Bloomingbird',team:'Sales',owner:'Jijomon George',rfqDate:'2026-01-05',quoteDate:'2026-01-08',poDate:'2026-01-12',jobInitDate:'2026-01-15',jobCompletedDate:'2026-01-31',status:'Job Completed',sentDate:'2026-01-08',lastUpdateDate:'2026-01-29',updateReceived:'Yes',value:42000,expiryDate:'2026-01-20',notes:'Campaign rollout and production support'},
+      {id:'SO-2402',client:'Anchor',team:'Operations',owner:'Bavin K',rfqDate:'2026-02-02',quoteDate:'2026-02-04',poDate:'2026-02-12',jobInitDate:'2026-02-15',jobCompletedDate:'2026-03-05',status:'Job Completed',sentDate:'2026-02-04',lastUpdateDate:'2026-03-01',updateReceived:'Yes',value:38000,expiryDate:'2026-02-18',notes:'Brand assets and launch pages'},
+      {id:'SO-2403',client:'Terra Brew',team:'Sales',owner:'Naveen Jayasurya',rfqDate:'2026-03-03',quoteDate:'2026-03-07',poDate:'',jobInitDate:'',jobCompletedDate:'',status:'Pending Update',sentDate:'2026-03-07',lastUpdateDate:'2026-03-10',updateReceived:'No',value:17500,expiryDate:'2026-03-20',notes:'Awaiting PO approval'},
+      {id:'SO-2404',client:'LuxeGlow',team:'Production',owner:'Binu P',rfqDate:'2026-04-11',quoteDate:'2026-04-15',poDate:'2026-04-21',jobInitDate:'2026-04-23',jobCompletedDate:'',status:'Job Initiated',sentDate:'2026-04-15',lastUpdateDate:'2026-04-28',updateReceived:'Yes',value:51000,expiryDate:'2026-04-25',notes:'Multi-phase packaging production'},
+      {id:'SO-2405',client:'Northline',team:'Operations',owner:'Bavin K',rfqDate:'2026-05-06',quoteDate:'2026-05-09',poDate:'2026-05-16',jobInitDate:'',jobCompletedDate:'',status:'PO Received',sentDate:'2026-05-09',lastUpdateDate:'2026-05-18',updateReceived:'Yes',value:29000,expiryDate:'2026-05-21',notes:'Vendor alignment in progress'},
+      {id:'SO-2406',client:'Aster Labs',team:'Sales',owner:'Jijomon George',rfqDate:'2026-06-14',quoteDate:'2026-06-17',poDate:'',jobInitDate:'',jobCompletedDate:'',status:'Expired',sentDate:'2026-06-17',lastUpdateDate:'2026-06-20',updateReceived:'No',value:21000,expiryDate:'2026-06-24',notes:'Quotation expired without PO'},
+      {id:'SO-2407',client:'Meridian',team:'Production',owner:'Binu P',rfqDate:'2026-07-02',quoteDate:'2026-07-05',poDate:'2026-07-11',jobInitDate:'2026-07-14',jobCompletedDate:'',status:'Job Initiated',sentDate:'2026-07-05',lastUpdateDate:'2026-07-20',updateReceived:'Yes',value:64000,expiryDate:'2026-07-18',notes:'Priority execution, weekly reporting'},
+      {id:'SO-2408',client:'Al Noor',team:'Support',owner:'Naveen Jayasurya',rfqDate:'2026-07-09',quoteDate:'',poDate:'',jobInitDate:'',jobCompletedDate:'',status:'Not Sent',sentDate:'',lastUpdateDate:'',updateReceived:'No',value:15000,expiryDate:'2026-07-25',notes:'Needs pricing review'}
+    ]
+  };
+
+  const $ = sel=>document.querySelector(sel);
+  const $$ = sel=>Array.from(document.querySelectorAll(sel));
+  const currency = new Intl.NumberFormat('en', {style:'currency',currency:'AED',maximumFractionDigits:0});
+
+  function monthLabel(date){
+    if(!date) return null;
+    const d = new Date(date);
+    if(isNaN(d)) return null;
+    return d.toLocaleString('en',{month:'short'})+' '+d.getFullYear();
+  }
+  function aggregate(records){
+    const map = {};
+    records.forEach(r=>{
+      const key = monthLabel(r.rfqDate);
+      if(!key) return;
+      map[key]=(map[key]||0)+Number(r.value||0);
+    });
+    return Object.entries(map).sort((a,b)=>new Date(a[0])-new Date(b[0])).map(([label,value])=>({label,value}));
+  }
+  function isOverdue(r){
+    if(!r.expiryDate || r.status==='Job Completed') return false;
+    const today = new Date();
+    return new Date(r.expiryDate) < today;
+  }
+  function generateId(){
+    const prefix = $('#idPrefix')?.value || 'SO';
+    const num = Math.floor(9000*Math.random())+1000;
+    return prefix+'-'+num;
+  }
+
+  function filterRecords(){
+    let records = [...state.records];
+    const {month,year,client,status,scope} = state.filters;
+    if(month!=='all'){
+      records = records.filter(r=>monthLabel(r.rfqDate)?.startsWith(month));
+    }
+    if(year!=='all'){
+      records = records.filter(r=>monthLabel(r.rfqDate)?.endsWith(year));
+    }
+    if(client!=='all'){
+      records = records.filter(r=>r.client===client);
+    }
+    if(status!=='all'){
+      records = records.filter(r=>r.status===status);
+    }
+    if(scope==='month' && month!=='all'){
+      // already filtered by month above
+    }
+    return records;
+  }
+
+  function renderPulse(records, monthly){
+    const totalValue = records.reduce((s,r)=>s+Number(r.value||0),0);
+    const completed = records.filter(r=>r.jobCompletedDate).length;
+    const active = records.filter(r=>!['Job Completed','Expired'].includes(r.status)).length;
+    const pending = records.filter(r=>r.status==='Pending Update'||r.updateReceived==='No').length;
+    const percent = records.length ? Math.round((completed/records.length)*100) : 0;
+
+    $('#pulseValue').textContent = percent+'%';
+    $('#pulseLabel').textContent = `${active} active · ${pending} pending`;
+
+    const primary = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim();
+    const gold = getComputedStyle(document.documentElement).getPropertyValue('--color-gold').trim();
+    const success = getComputedStyle(document.documentElement).getPropertyValue('--color-success').trim();
+
+    const rings = [
+      {r:118,w:18,c:primary,v:Math.max(percent,8)},
+      {r:92,w:14,c:gold,v:Math.min(100,records.length?Math.round((active/records.length)*100):0)},
+      {r:68,w:12,c:success,v:Math.min(100,records.length?Math.round((records.filter(r=>r.poDate).length/records.length)*100):0)}
+    ];
+    $('#radialSvg').innerHTML = rings.map(r=>{
+      const circumference = 2*Math.PI*r.r;
+      const offset = circumference*(1-r.v/100);
+      return `<circle cx="150" cy="150" r="${r.r}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="${r.w}"></circle>
+              <circle cx="150" cy="150" r="${r.r}" fill="none" stroke="${r.c}" stroke-width="${r.w}" stroke-linecap="round"
+                transform="rotate(-90 150 150)" stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"></circle>`;
+    }).join('');
+
+    const monthPeak = monthly.reduce((best,item)=>item.value>best.value?item:best,{label:'—',value:0});
+    $('#miniInsights').innerHTML = [
+      ['Records in scope', String(records.length)],
+      ['Total value', currency.format(totalValue)],
+      ['Strongest month', `${monthPeak.label} · ${currency.format(monthPeak.value||0)}`],
+      ['PO secured', String(records.filter(r=>r.poDate).length)]
+    ].map(([label,val])=>`<div class="insight-pill"><div class="eyebrow">${label}</div><strong>${val}</strong></div>`).join('');
+  }
+
+  function renderFunnel(records){
+    const stages = [
+      ['RFQ',records.filter(r=>r.rfqDate).length],
+      ['Quote',records.filter(r=>r.quoteDate).length],
+      ['PO',records.filter(r=>r.poDate).length],
+      ['Job',records.filter(r=>r.jobInitDate).length],
+      ['Done',records.filter(r=>r.jobCompletedDate).length]
+    ];
+    const max = Math.max(1,...stages.map(s=>s[1]));
+    $('#journeyTrack').innerHTML = stages.map(([label,val])=>`
+      <div class="journey-step">
+        <div class="journey-node" style="min-height:${76+(val/max)*36}px;"><strong>${val}</strong></div>
+        <div class="journey-label">${label}</div>
+      </div>`).join('');
+  }
+
+  function renderClientConstellation(items){
+    const total = items.reduce((s,i)=>s+i.value,0)||1;
+    $('#clientConstellation').innerHTML = items.map(item=>{
+      const pct = Math.max(8,Math.round((item.value/total)*100));
+      return `<div class="constellation-row">
+        <div><strong>${item.label}</strong></div>
+        <div class="constellation-line"><i></i><span style="left:${pct}%"></span></div>
+        <div class="small-note">${currency.format(item.value)}</div>
+      </div>`;
+    }).join('') || '<div class="empty">No client values in this view.</div>';
+  }
+
+  function renderRecent(records){
+    const pending = records.filter(r=>r.status==='Pending Update'||r.updateReceived==='No').length;
+    const sent = records.filter(r=>r.sentDate).length;
+    const overdue = records.filter(isOverdue).length;
+    const total = records.reduce((s,r)=>s+Number(r.value||0),0);
+    const signals = [
+      ['Pending updates', `${pending} items still need response or change.`],
+      ['Sent outward', `${sent} records already moved out for action.`],
+      ['Overdue watch', overdue?`${overdue} entries are past expiry.`:'Everything is within the expected window.'],
+      ['Value in scope', `${currency.format(total)} represented in this view.`]
+    ];
+    $('#recentList').innerHTML = signals.map(([title,note],i)=>{
+      const color = i===1?'var(--color-gold)':i===2?'var(--color-error)':'var(--color-primary)';
+      const glow = i===1?'rgba(232,175,52,0.18)':i===2?'rgba(221,105,116,0.18)':'rgba(79,152,163,0.18)';
+      return `<div class="signal-item">
+        <span class="signal-dot" style="background:${color};box-shadow:0 0 0 6px ${glow};"></span>
+        <div><strong>${title}</strong><div class="small-note">${note}</div></div>
+        <span class="small-note">live</span>
+      </div>`;
+    }).join('');
+  }
+
+  function badgeClass(status){
+    if(status==='Job Completed') return '';
+    if(status==='Expired') return 'warning';
+    if(status==='Pending Update' || status==='Not Sent') return 'warning';
+    return '';
+  }
+
+  function renderTable(records){
+    $('#recordsBody').innerHTML = records.map(r=>`
+      <tr>
+        <td>${r.id}</td>
+        <td>${r.client}</td>
+        <td>${r.team||'—'}</td>
+        <td>${r.owner||'—'}</td>
+        <td>${r.rfqDate||'—'}</td>
+        <td>${r.quoteDate||'—'}</td>
+        <td>${r.poDate||'—'}</td>
+        <td><span class="badge ${badgeClass(r.status)}">${r.status}</span></td>
+        <td>${r.sentDate||'—'}</td>
+        <td>${r.updateReceived==='Yes'?(r.lastUpdateDate||'Yes'):'No'}</td>
+        <td>${currency.format(r.value||0)}</td>
+        <td>${r.notes||''}</td>
+        <td>
+          <button class="btn btn-soft" type="button" onclick="editRecord('${r.id}')">Edit</button>
+          <button class="btn btn-soft" type="button" onclick="deleteRecord('${r.id}')">Delete</button>
+        </td>
+      </tr>`).join('') || `<tr><td colspan="13" class="empty">No records match this view.</td></tr>`;
+  }
+
+  function renderTeams(records){
+    const members = {};
+    records.forEach(r=>{
+      const key = r.owner||'Unassigned';
+      if(!members[key]) members[key]={team:r.team||'—',total:0,po:0,sent:0,updated:0,pending:0,notSent:0};
+      members[key].total+=1;
+      if(r.poDate) members[key].po+=1;
+      if(r.sentDate) members[key].sent+=1;
+      if(r.updateReceived==='Yes') members[key].updated+=1;
+      if(r.status==='Pending Update'||r.updateReceived==='No') members[key].pending+=1;
+      if(r.status==='Not Sent'||!r.sentDate) members[key].notSent+=1;
+    });
+    const entries = Object.entries(members);
+    const totals = {
+      people:entries.length,
+      po:records.filter(r=>r.poDate).length,
+      sent:records.filter(r=>r.sentDate).length,
+      pending:records.filter(r=>r.status==='Pending Update'||r.updateReceived==='No').length
+    };
+    $('#teamStats').innerHTML = [
+      ['People active',totals.people],
+      ['POs assigned',totals.po],
+      ['Items sent',totals.sent],
+      ['Pending follow-up',totals.pending]
+    ].map(([k,v])=>`<div class="insight-pill"><div class="eyebrow">${k}</div><strong>${v}</strong></div>`).join('');
+    $('#teamList').innerHTML = entries.map(([name,data])=>`
+      <div class="list-item">
+        <div><strong>${name}</strong><div class="small-note">${data.team}</div></div>
+        <div class="small-note">PO ${data.po} · Sent ${data.sent} · Updated ${data.updated} · Pending ${data.pending} · Not sent ${data.notSent}</div>
+      </div>`).join('') || '<div class="empty">No team data yet.</div>';
+    const followups = records.filter(r=>r.status==='Pending Update'||r.status==='Not Sent'||r.updateReceived==='No');
+    $('#followupList').innerHTML = followups.map(r=>`
+      <div class="list-item">
+        <div><strong>${r.client}</strong><div class="small-note">${r.owner||'Unassigned'} · ${r.team||'—'}</div></div>
+        <div class="small-note">${r.status}${r.sentDate?` · sent ${r.sentDate}`:' · not sent'}</div>
+      </div>`).join('') || '<div class="empty">No follow-up items right now.</div>';
+  }
+
+  function renderRestore(){
+    $('#restoreList').innerHTML = state.deleted.map(r=>`
+      <div class="list-item">
+        <div><strong>${r.id}</strong><div class="small-note">${r.client}</div></div>
+        <button class="btn btn-soft" type="button" onclick="restoreRecord('${r.id}')">Restore</button>
+      </div>`).join('') || '<div class="empty">No deleted items in the last 30 days.</div>';
+  }
+
+  function renderBackupHistory(){
+    $('#backupHistory').innerHTML = state.backups.map((b,i)=>`
+      <div class="list-item">
+        <div><strong>Snapshot ${i+1}</strong><div class="small-note">${b.timestamp}</div></div>
+        <div class="small-note">${b.count} records</div>
+      </div>`).join('') || '<div class="empty">No backups created yet.</div>';
+  }
+
+  function topClient(records){
+    if(!records.length) return '—';
+    const map = {};
+    records.forEach(r=>{map[r.client]=(map[r.client]||0)+Number(r.value||0);});
+    return Object.entries(map).sort((a,b)=>b[1]-a[1])[0][0];
+  }
+
+  function renderPresentation(records){
+    $('#presentationKpis').innerHTML = state.presentation.kpi ? [
+      ['Records',records.length],
+      ['Value',currency.format(records.reduce((s,r)=>s+Number(r.value||0),0))],
+      ['Completed',records.filter(r=>r.status==='Job Completed').length]
+    ].map(([k,v])=>`<div class="stat"><div class="eyebrow">${k}</div><strong>${v}</strong></div>`).join('') : '';
+    const slides=[];
+    if(state.presentation.trend) slides.push(`<div class="panel"><div class="eyebrow">Trend</div><strong style="font-size:0.95rem;">${records.length} records in scope</strong><p class="sub">Month filter and total view stay in sync.</p></div>`);
+    if(state.presentation.funnel) slides.push(`<div class="panel"><div class="eyebrow">Funnel</div><strong style="font-size:0.95rem;">${records.filter(r=>r.jobCompletedDate).length}/${records.filter(r=>r.rfqDate).length||1}</strong><p class="sub">Completed versus RFQs received.</p></div>`);
+    if(state.presentation.client) slides.push(`<div class="panel"><div class="eyebrow">Top client</div><strong style="font-size:0.95rem;">${topClient(records)}</strong><p class="sub">Highest value within current scope.</p></div>`);
+    $('#presentationFunnelInner').innerHTML = $('#journeyTrack').innerHTML;
+    const monthly = aggregate(state.filters.scope==='total'?state.records:records);
+    const monthlyMax = Math.max(1,...monthly.map(m=>m.value));
+    $('#presentationMonthlySpark').innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(${monthly.length},1fr);gap:var(--space-2);align-items:end;min-height:220px;">
+        ${monthly.map(m=>`
+          <div style="display:grid;gap:var(--space-2);align-items:end;justify-items:center;">
+            <div style="width:100%;height:${Math.max(24,(m.value/monthlyMax)*180)}px;border-radius:18px;background:linear-gradient(180deg,rgba(79,152,163,0.78),rgba(79,152,163,0.22));"></div>
+            <div class="small-note">${m.label}</div>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  function updateFilters(){
+    const months = new Set(), years = new Set(), clients = new Set(), statuses=new Set();
+    state.records.forEach(r=>{
+      const label = monthLabel(r.rfqDate);
+      if(label){months.add(label.split(' ')[0]);years.add(label.split(' ')[1]);}
+      clients.add(r.client);statuses.add(r.status);
+    });
+    const monthSel = $('#monthFilter');
+    const yearSel = $('#yearFilter');
+    const clientSel = $('#clientFilter');
+    const statusSel = $('#statusFilter');
+    monthSel.innerHTML = '<option value="all">All months</option>'+Array.from(months).map(m=>`<option>${m}</option>`).join('');
+    yearSel.innerHTML = '<option value="all">All years</option>'+Array.from(years).map(y=>`<option>${y}</option>`).join('');
+    clientSel.innerHTML = '<option value="all">All clients</option>'+Array.from(clients).map(c=>`<option>${c}</option>`).join('');
+    statusSel.innerHTML = '<option value="all">All stages</option>'+Array.from(statuses).map(s=>`<option>${s}</option>`).join('');
+    const defaultMonthSel = $('#defaultMonth');
+    if(defaultMonthSel){
+      defaultMonthSel.innerHTML = '<option value="auto">Auto</option>'+Array.from(months).map(m=>`<option>${m}</option>`).join('');
+    }
+  }
+
+  function refreshAll(){
+    const records = filterRecords();
+    const monthly = aggregate(state.filters.scope==='total'?state.records:records);
+    const clientAgg = Object.entries(records.reduce((acc,r)=>{acc[r.client]=(acc[r.client]||0)+Number(r.value||0);return acc;},{}))
+      .map(([label,value])=>({label,value})).sort((a,b)=>b.value-a.value).slice(0,6);
+    renderPulse(records,monthly);
+    renderClientConstellation(clientAgg);
+    renderFunnel(records);
+    renderRecent(records);
+    renderTable(records);
+    renderTeams(records);
+    renderRestore();
+    renderBackupHistory();
+    renderPresentation(records);
+    $('#lastUpdated').textContent = 'Updated '+new Date().toLocaleString();
+  }
+
+  function switchView(view){
+    $$('.view').forEach(v=>v.classList.remove('active'));
+    $('#view-'+view).classList.add('active');
+    $$('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.viewTarget===view));
+    const titles = {
+      dashboard:['Home','Visual-first analysis with quick drill-down'],
+      spreadsheet:['Spreadsheet','Team and RFQ data in one place'],
+      teams:['Teams','Ownership, PO flow, and follow-up'],
+      presentation:['Presentation','In-app storytelling visuals'],
+      details:['Small Details','Utilities, backup, and settings']
+    };
+    const pair = titles[view] || ['Home','Visual-first analysis'];
+    $('#page-title').textContent = pair[0];
+    $('#page-subtitle').textContent = pair[1];
+  }
+
+  function resetForm(){
+    $('#recordId').value='';
+    $('#clientName').value='';
+    $('#rfqDate').value='';
+    $('#quoteDate').value='';
+    $('#poDate').value='';
+    $('#jobInitDate').value='';
+    $('#jobCompletedDate').value='';
+    $('#recordStatus').value='RFQ Received';
+    $('#recordTeam').value='Sales';
+    $('#recordOwner').value='Jijomon George';
+    $('#recordValue').value='';
+    $('#sentDate').value='';
+    $('#lastUpdateDate').value='';
+    $('#updateReceived').value='Yes';
+    $('#expiryDate').value='';
+    $('#recordNotes').value='';
+  }
+
+  function editRecord(id){
+    const r = state.records.find(x=>x.id===id);
+    if(!r) return;
+    $('#recordId').value=r.id;
+    $('#clientName').value=r.client;
+    $('#rfqDate').value=r.rfqDate;
+    $('#quoteDate').value=r.quoteDate;
+    $('#poDate').value=r.poDate;
+    $('#jobInitDate').value=r.jobInitDate;
+    $('#jobCompletedDate').value=r.jobCompletedDate;
+    $('#recordStatus').value=r.status;
+    $('#recordTeam').value=r.team||'Sales';
+    $('#recordOwner').value=r.owner||'Jijomon George';
+    $('#recordValue').value=r.value;
+    $('#sentDate').value=r.sentDate||'';
+    $('#lastUpdateDate').value=r.lastUpdateDate||'';
+    $('#updateReceived').value=r.updateReceived||'Yes';
+    $('#expiryDate').value=r.expiryDate;
+    $('#recordNotes').value=r.notes;
+    switchView('spreadsheet');
+    document.getElementById('recordForm').scrollIntoView({behavior:'smooth'});
+  }
+  window.editRecord = editRecord;
+
+  function deleteRecord(id){
+    const idx = state.records.findIndex(r=>r.id===id);
+    if(idx===-1) return;
+    const [removed] = state.records.splice(idx,1);
+    removed.deletedAt = new Date().toISOString();
+    state.deleted.unshift(removed);
+    refreshAll();
+  }
+  window.deleteRecord = deleteRecord;
+
+  function restoreRecord(id){
+    const idx = state.deleted.findIndex(r=>r.id===id);
+    if(idx===-1) return;
+    const [restored] = state.deleted.splice(idx,1);
+    delete restored.deletedAt;
+    state.records.unshift(restored);
+    refreshAll();
+  }
+  window.restoreRecord = restoreRecord;
+
+  function createBackupSnapshot(){
+    state.backups.unshift({timestamp:new Date().toLocaleString(),count:state.records.length,json:JSON.stringify(state.records)});
+    if(state.backups.length>20) state.backups.pop();
+  }
+
+  function download(name,content,type){
+    const blob = new Blob([content],{type:type||'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href=url;a.download=name;a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function attachEvents(){
+    $$('#nav button').forEach(btn=>{
+      btn.addEventListener('click',()=>switchView(btn.dataset.viewTarget));
+    });
+    $('#monthFilter').addEventListener('change',e=>{state.filters.month=e.target.value;refreshAll();});
+    $('#yearFilter').addEventListener('change',e=>{state.filters.year=e.target.value;refreshAll();});
+    $('#clientFilter').addEventListener('change',e=>{state.filters.client=e.target.value;refreshAll();});
+    $('#statusFilter').addEventListener('change',e=>{state.filters.status=e.target.value;refreshAll();});
+    $('#scopeFilter').addEventListener('change',e=>{state.filters.scope=e.target.value;refreshAll();});
+    const form = $('#recordForm');
+    form.addEventListener('submit',e=>{
+      e.preventDefault();
+      const id = $('#recordId').value.trim() || generateId();
+      const record = {
+        id,
+        client:$('#clientName').value.trim(),
+        team:$('#recordTeam').value,
+        owner:$('#recordOwner').value,
+        rfqDate:$('#rfqDate').value,
+        quoteDate:$('#quoteDate').value,
+        poDate:$('#poDate').value,
+        jobInitDate:$('#jobInitDate').value,
+        jobCompletedDate:$('#jobCompletedDate').value,
+        status:$('#recordStatus').value,
+        sentDate:$('#sentDate').value,
+        lastUpdateDate:$('#lastUpdateDate').value,
+        updateReceived:$('#updateReceived').value,
+        value:Number($('#recordValue').value||0),
+        expiryDate:$('#expiryDate').value,
+        notes:$('#recordNotes').value.trim()
+      };
+      const idx = state.records.findIndex(r=>r.id===id);
+      if(idx>-1) state.records[idx]=record; else state.records.unshift(record);
+      resetForm();refreshAll();switchView('spreadsheet');
+    });
+    $('#resetFormBtn').addEventListener('click',()=>resetForm());
+    $('#showOverdueBtn').addEventListener('click',()=>{
+      state.filters.status='all';
+      const filtered = filterRecords().filter(isOverdue);
+      renderTable(filtered);
+    });
+    $('#clearSearchBtn').addEventListener('click',()=>{
+      $('#searchInput').value='';
+      refreshAll();
+    });
+    $('#searchInput').addEventListener('input',e=>{
+      const term = e.target.value.toLowerCase();
+      const records = filterRecords().filter(r=>
+        r.id.toLowerCase().includes(term) ||
+        r.client.toLowerCase().includes(term) ||
+        (r.notes||'').toLowerCase().includes(term)
+      );
+      renderTable(records);
+    });
+    $('#downloadTemplateBtn').addEventListener('click',()=>{
+      const csv = 'id,client,team,owner,rfqDate,quoteDate,poDate,jobInitDate,jobCompletedDate,status,sentDate,lastUpdateDate,updateReceived,value,expiryDate,notes\n' +
+        'SO-9001,Example Client,Sales,Jijomon George,2026-07-01,2026-07-03,2026-07-08,2026-07-10,2026-07-22,Job Completed,2026-07-03,2026-07-21,Yes,12000,2026-07-15,Imported sample row\n';
+      download('sales-template.csv',csv,'text/csv');
+    });
+    $('#importBtn').addEventListener('click',()=>{
+      const file = $('#csvFile').files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = e=>{
+        const text = e.target.result;
+        const [headerLine,...lines] = text.trim().split(/\r?\n/);
+        const headers = headerLine.split(',');
+        const required = ['id','client','team','owner','rfqDate','quoteDate','poDate','jobInitDate','jobCompletedDate','status','sentDate','lastUpdateDate','updateReceived','value','expiryDate','notes'];
+        const missing = required.filter(h=>!headers.includes(h));
+        const log = [];
+        if(missing.length){
+          log.push(`<div class="list-item"><div><strong>Missing headers</strong><div class="small-note">${missing.join(', ')}</div></div></div>`);
+        } else {
+          lines.forEach((line,idx)=>{
+            if(!line.trim()) return;
+            const cells = line.split(',');
+            const row = {};
+            headers.forEach((h,i)=>row[h]=cells[i]||'');
+            state.records.unshift({
+              id:row.id || generateId(),
+              client:row.client,
+              team:row.team,
+              owner:row.owner,
+              rfqDate:row.rfqDate,
+              quoteDate:row.quoteDate,
+              poDate:row.poDate,
+              jobInitDate:row.jobInitDate,
+              jobCompletedDate:row.jobCompletedDate,
+              status:row.status,
+              sentDate:row.sentDate,
+              lastUpdateDate:row.lastUpdateDate,
+              updateReceived:row.updateReceived,
+              value:Number(row.value||0),
+              expiryDate:row.expiryDate,
+              notes:row.notes
+            });
+            log.push(`<div class="list-item"><div><strong>Row ${idx+1}</strong><div class="small-note">Imported for ${row.client}</div></div></div>`);
+          });
+        }
+        $('#importLog').innerHTML = log.join('') || '<div class="empty">No rows imported.</div>';
+        updateFilters();refreshAll();
+      };
+      reader.readAsText(file);
+    });
+    $('#makeBackupBtn').addEventListener('click',()=>{createBackupSnapshot();renderBackupHistory();});
+    $('#exportCsvBtn').addEventListener('click',()=>{
+      const headers = ['id','client','team','owner','rfqDate','quoteDate','poDate','jobInitDate','jobCompletedDate','status','sentDate','lastUpdateDate','updateReceived','value','expiryDate','notes'];
+      const rows = state.records.map(r=>headers.map(h=>r[h]??'').join(','));
+      download('sales-export.csv',[headers.join(','),...rows].join('\n'),'text/csv');
+    });
+    $('#gmailCopyBtn').addEventListener('click',()=>{
+      const text = 'Backup JSON:\n'+JSON.stringify(state.records,null,2);
+      navigator.clipboard && navigator.clipboard.writeText(text);
+    });
+    $('#downloadBtn').addEventListener('click',()=>{
+      download('sales-backup.json',JSON.stringify(state.records,null,2),'application/json');
+    });
+    $$('#view-presentation .switch').forEach(sw=>{
+      sw.addEventListener('click',()=>{
+        const key = sw.dataset.toggle;
+        sw.classList.toggle('on');
+        state.presentation[key] = sw.classList.contains('on');
+        refreshAll();
+      });
+    });
+    $('#themeToggle').addEventListener('click',()=>{
+      const current = document.documentElement.dataset.theme || 'dark';
+      const next = current==='dark'?'light':'dark';
+      document.documentElement.dataset.theme = next;
+      if(next==='light'){
+        document.body.style.background = '#f5f5f7';
+      } else {
+        document.body.style.background = 'radial-gradient(circle at top,#10121b,#050609)';
+      }
+    });
+    $('#themeSelect').addEventListener('change',e=>{
+      const next = e.target.value;
+      document.documentElement.dataset.theme = next;
+      if(next==='light'){
+        document.body.style.background = '#f5f5f7';
+      } else {
+        document.body.style.background = 'radial-gradient(circle at top,#10121b,#050609)';
+      }
+    });
+  }
+
+  (function init(){
+    updateFilters();
+    attachEvents();
+    createBackupSnapshot();
+    refreshAll();
+  })();
+</script>
+</body>
+</html>
